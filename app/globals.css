@@ -44,3 +44,17 @@ body {
     transform: scale(1);
   }
 }
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: white !important;
+}
+
+.swiper-pagination-bullet {
+  background: white !important;
+  opacity: 0.6 !important;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+}

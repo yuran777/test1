@@ -12,8 +12,13 @@ import RevealSection from "@/components/invitation/reveal-section"
 export default function InvitationPage() {
   const data = invitationData
 
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [contactOpen, setContactOpen] = useState(false)
+  const [showAllGallery, setShowAllGallery] = useState(false)
+
+  const visibleGallery = showAllGallery
+    ? data.gallery
+    : data.gallery.slice(0, 9)
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-[720px] bg-white shadow-lg">
@@ -96,30 +101,52 @@ export default function InvitationPage() {
 
       <RevealSection>
         <section className="px-6 py-10 md:px-10">
-          <h2 className="mb-6 text-center text-lg font-medium md:text-xl">
+          <h2 className="mb-8 text-center text-[34px] font-light text-gray-900">
             GALLERY
           </h2>
 
           <div className="grid grid-cols-3 gap-2 md:grid-cols-4">
-            {data.gallery.map((img) => (
-              <img
-                key={img.id}
-                src={img.imageUrl}
-                alt={`갤러리 이미지 ${img.id}`}
-                className="cursor-pointer rounded-lg transition-transform duration-300 hover:scale-[1.03]"
-                onClick={() => setSelectedImage(img.imageUrl)}
-              />
-            ))}
+            {visibleGallery.map((img) => {
+              const originalIndex = data.gallery.findIndex(
+                (item) => item.id === img.id
+              )
+
+              return (
+                <img
+                  key={img.id}
+                  src={img.imageUrl}
+                  alt={`갤러리 이미지 ${img.id}`}
+                  className="cursor-pointer rounded-lg transition-transform duration-300 hover:scale-[1.03]"
+                  onClick={() => setSelectedImageIndex(originalIndex)}
+                />
+              )
+            })}
           </div>
+
+          {data.gallery.length > 9 && !showAllGallery && (
+            <div className="mt-6 text-center">
+              <button
+                type="button"
+                onClick={() => setShowAllGallery(true)}
+                className="rounded-lg bg-gray-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-800"
+              >
+                더보기
+              </button>
+            </div>
+          )}
         </section>
       </RevealSection>
 
       <GalleryModal
-        image={selectedImage}
-        onClose={() => setSelectedImage(null)}
+        images={data.gallery.map((item) => item.imageUrl)}
+        selectedIndex={selectedImageIndex}
+        onClose={() => setSelectedImageIndex(null)}
       />
 
-
+      <ContactModal
+        open={contactOpen}
+        onClose={() => setContactOpen(false)}
+      />
     </main>
   )
 }
