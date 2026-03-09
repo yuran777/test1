@@ -10,7 +10,7 @@ export default function GalleryModal({ image, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 px-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 px-4 animate-[fadeIn_.25s_ease-out]"
       onClick={onClose}
     >
       <button
@@ -25,7 +25,7 @@ export default function GalleryModal({ image, onClose }: Props) {
       <img
         src={image}
         alt="확대 이미지"
-        className="max-h-[90vh] max-w-[90vw] rounded-xl object-contain"
+        className="max-h-[90vh] max-w-[90vw] rounded-xl object-contain animate-[zoomIn_.25s_ease-out]"
         onClick={(e) => e.stopPropagation()}
       />
     </div>

@@ -2,117 +2,124 @@
 
 import { useState } from "react"
 import { invitationData } from "@/lib/data"
+import GalleryModal from "@/components/invitation/gallery-modal"
 import ContactModal from "@/components/invitation/contact-modal"
 import CalendarSection from "@/components/invitation/calendar-section"
-import GallerySection from "@/components/invitation/gallery-section"
 import LocationSection from "@/components/invitation/location-section"
 import AccountSection from "@/components/invitation/account-section"
-
-
+import RevealSection from "@/components/invitation/reveal-section"
 
 export default function InvitationPage() {
-
   const data = invitationData
+
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [contactOpen, setContactOpen] = useState(false)
 
   return (
+    <main className="mx-auto min-h-screen w-full max-w-[720px] bg-white shadow-lg">
+      <RevealSection delay={0}>
+        <section className="text-center px-6 pt-14 pb-10 md:px-10">
+          <p className="mb-6 text-xs tracking-[0.35em] text-gray-500">
+            💍 WEDDING INVITATION
+          </p>
 
-    <main className="mx-auto max-w-[480px] min-h-screen bg-gray-100">
+          <h1 className="text-3xl font-light text-gray-900 md:text-4xl">
+            {data.groomName}
+            <span className="mx-2 text-gray-300">·</span>
+            {data.brideName}
+          </h1>
 
-      {/* HERO */}
+          <p className="mt-6 text-sm text-gray-600 md:text-base">
+            {data.weddingDateText}
+          </p>
 
-      <section className="text-center px-6 pt-14 pb-10">
+          <p className="mt-3 text-sm text-gray-500 md:text-base">
+            {data.venueName} {data.venueHall}
+          </p>
+        </section>
+      </RevealSection>
 
-        <p className="text-xs tracking-[0.35em] text-gray-500 mb-6">
-          💍 WEDDING INVITATION
-        </p>
+      <RevealSection delay={100}>
+        <section className="px-8 py-10 text-center md:px-14">
+          <p className="whitespace-pre-line text-sm leading-7 text-gray-700 md:text-base md:leading-8">
+            {data.message}
+          </p>
+        </section>
+      </RevealSection>
 
-        <h1 className="text-3xl font-light text-gray-900">
-          {data.groomName}
-          <span className="mx-2 text-gray-300">·</span>
-          {data.brideName}
-        </h1>
+      <RevealSection delay={150}>
+        <section className="space-y-3 px-6 text-center text-sm text-gray-600 md:text-base">
+          <p>
+            ㅇㅇㅇ · ㅇㅇㅇ 의 아들
+            <strong className="ml-2 text-gray-900">성우</strong>
+          </p>
 
-        <p className="mt-6 text-gray-600 text-sm">
-          {data.weddingDateText}
-        </p>
+          <p>
+            김용호 · 임동미 의 딸
+            <strong className="ml-2 text-gray-900">유란</strong>
+          </p>
+        </section>
+      </RevealSection>
 
-        <p className="mt-3 text-gray-500 text-sm">
-          {data.venueName} {data.venueHall}
-        </p>
+      <RevealSection delay={200}>
+        <section className="py-10 text-center">
+          <button
+            onClick={() => setContactOpen(true)}
+            className="rounded-lg bg-gray-900 px-8 py-3 text-sm font-medium text-white transition-transform duration-200 hover:scale-[1.02]"
+          >
+            연락하기
+          </button>
+        </section>
+      </RevealSection>
 
-      </section>
+      <RevealSection>
+        <CalendarSection
+          groomName={data.groomName}
+          brideName={data.brideName}
+          weddingDate={data.weddingDate}
+        />
+      </RevealSection>
 
+      <RevealSection>
+        <LocationSection
+          venueName={data.venueName}
+          venueHall={data.venueHall}
+          venueAddress={data.venueAddress}
+          mapLinks={data.mapLinks}
+          locationInfo={data.locationInfo}
+        />
+      </RevealSection>
 
-      {/* 초대 문구 */}
+      <RevealSection>
+        <AccountSection accounts={data.accounts} />
+      </RevealSection>
 
-      <section className="text-center px-8 py-10">
+      <RevealSection>
+        <section className="px-6 py-10 md:px-10">
+          <h2 className="mb-6 text-center text-lg font-medium md:text-xl">
+            GALLERY
+          </h2>
 
-        <p className="whitespace-pre-line text-gray-700 text-sm leading-7">
-          {data.message}
-        </p>
+          <div className="grid grid-cols-3 gap-2 md:grid-cols-4">
+            {data.gallery.map((img) => (
+              <img
+                key={img.id}
+                src={img.imageUrl}
+                alt={`갤러리 이미지 ${img.id}`}
+                className="cursor-pointer rounded-lg transition-transform duration-300 hover:scale-[1.03]"
+                onClick={() => setSelectedImage(img.imageUrl)}
+              />
+            ))}
+          </div>
+        </section>
+      </RevealSection>
 
-      </section>
-
-
-      {/* 부모님 */}
-
-      <section className="text-center text-sm text-gray-600 space-y-3">
-
-        <p>
-          ㅇㅇㅇ · ㅇㅇㅇ 의 아들
-          <strong className="ml-2 text-gray-900">성우</strong>
-        </p>
-
-        <p>
-          김용호 · 임동미 의 딸
-          <strong className="ml-2 text-gray-900">유란</strong>
-        </p>
-
-      </section>
-
-
-      {/* 연락하기 버튼 */}
-
-      <section className="text-center py-10">
-
-        <button
-        onClick={() => setContactOpen(true)}
-        className="bg-gray-900 text-white px-8 py-3 rounded-lg text-sm font-medium"
-        >
-          연락하기
-        </button>
-
-      </section>
-
-      {/* 캘린더 */}
-
-      <CalendarSection
-      groomName={data.groomName}
-      brideName={data.brideName}
-      weddingDate={data.weddingDate}
+      <GalleryModal
+        image={selectedImage}
+        onClose={() => setSelectedImage(null)}
       />
-      
-      <GallerySection images={data.gallery} />
 
-      <LocationSection
-      venueName={data.venueName}
-      venueHall={data.venueHall}
-      venueAddress={data.venueAddress}
-      mapLinks={data.mapLinks}
-      locationInfo={data.locationInfo}
-      />
-      
-      <AccountSection accounts={data.accounts} />
-
-
-      <ContactModal
-      open={contactOpen}
-      onClose={() => setContactOpen(false)}
-      />
 
     </main>
-
   )
-
 }
