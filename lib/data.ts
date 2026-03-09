@@ -1,0 +1,119 @@
+import { Invitation } from "@/types/invitation"
+
+export const invitationData: Invitation = {
+  slug: "sample",
+
+  groomName: "박성우",
+  brideName: "김유란",
+
+  weddingDate: "2026-07-12T14:00:00",
+  weddingDateText: "2026년 7월 12일 일요일 오후 2시",
+
+  venueName: "셀럽앤어셈",
+  venueHall: "디아이 올라 홀(2충)",
+  venueAddress: "서울 강남구 언주로 711 건설회관 2층",
+
+  message: `[수정 예정]
+  저희 두 사람이 하나가 되어
+첫 발걸음을 내딛는 시작,
+
+시간이 흘러도 이날을 기억하며
+설레고도 기뻤던 날을 떠올릴 것입니다.
+
+밝은 미소로 함께해 주신다면
+평생의 기억으로 소중히 간직하겠습니다.`,
+
+
+  gallery: [
+    { id: "1", imageUrl: "/gallery/1.jpg", thumbUrl: "/gallery/1.jpg" },
+    { id: "2", imageUrl: "/gallery/2.jpg", thumbUrl: "/gallery/2.jpg" },
+    { id: "3", imageUrl: "/gallery/3.jpg", thumbUrl: "/gallery/3.jpg" },
+    { id: "4", imageUrl: "/gallery/4.jpg", thumbUrl: "/gallery/4.jpg" },
+    { id: "5", imageUrl: "/gallery/5.jpg", thumbUrl: "/gallery/5.jpg" },
+    { id: "6", imageUrl: "/gallery/6.jpg", thumbUrl: "/gallery/6.jpg" },
+    { id: "7", imageUrl: "/gallery/7.jpg", thumbUrl: "/gallery/7.jpg" },
+    { id: "8", imageUrl: "/gallery/8.jpg", thumbUrl: "/gallery/8.jpg" },
+    { id: "9", imageUrl: "/gallery/9.jpg", thumbUrl: "/gallery/9.jpg" },
+    { id: "10", imageUrl: "/gallery/10.jpg", thumbUrl: "/gallery/10.jpg" },
+    { id: "11", imageUrl: "/gallery/11.jpg", thumbUrl: "/gallery/11.jpg" },
+    { id: "12", imageUrl: "/gallery/12.jpg", thumbUrl: "/gallery/12.jpg" },
+    { id: "13", imageUrl: "/gallery/13.jpg", thumbUrl: "/gallery/13.jpg" },
+    { id: "14", imageUrl: "/gallery/14.jpg", thumbUrl: "/gallery/14.jpg" },
+    { id: "15", imageUrl: "/gallery/15.jpg", thumbUrl: "/gallery/15.jpg" },
+  ],
+
+
+
+  accounts: [
+    {
+      side: "groom",
+      label: "박성우",
+      bank: "토스뱅크",
+      accountNumber: "1000-1234-5678",
+      holder: "박성우",
+    },
+    {
+      side: "groom",
+      label: "ㅇㅇㅇ",
+      bank: "NH농협",
+      accountNumber: "301-1234-5678-91",
+      holder: "ㅇㅇㅇ",
+    },
+    {
+      side: "groom",
+      label: "ㅇㅇㅇ",
+      bank: "NH농협",
+      accountNumber: "302-1234-5678-91",
+      holder: "ㅇㅇㅇ",
+    },
+    {
+      side: "bride",
+      label: "김유란",
+      bank: "신한은행",
+      accountNumber: "110-234-567890",
+      holder: "김유란",
+    },
+    {
+      side: "bride",
+      label: "김용호",
+      bank: "국민은행",
+      accountNumber: "123-45-6789012",
+      holder: "김용호",
+    },
+    {
+      side: "bride",
+      label: "임동미",
+      bank: "하나은행",
+      accountNumber: "456-910283-12307",
+      holder: "임동미",
+    },
+  ],
+
+  contacts: [
+    {
+      role: "groom",
+      name: "박성우",
+      phone: "01022431839",
+    },
+  ],
+
+  mapLinks: {
+    kakao: "https://kko.to/SoyaOhgHA7",
+    naver: "https://naver.me/xxY2U7vu",
+    google: "https://maps.app.goo.gl/ZRiaEgNrCMwEctru5",
+  },
+
+  locationInfo: {
+    subway: [
+      "7호선 학동역 10번 출구 도보 4분",
+    ],
+    bus: [
+      "서울세관사거리 정류장 하차",
+      "간선/지선 버스 이용 가능",
+    ],
+    parking: [
+      "건설회관 주차장 무료 주차 가능",
+    ],
+  },
+  accountNumber: ""
+}
