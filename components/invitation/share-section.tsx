@@ -21,7 +21,7 @@ export default function ShareSection() {
     }
 
     const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || "https://test1-peach-six.vercel.app/invitation/sample";
+      process.env.NEXT_PUBLIC_SITE_URL || "https://test1-peach-six.vercel.app";
 
     const invitationUrl = `${siteUrl}/invitation/${invitationData.slug}`;
 
@@ -50,7 +50,7 @@ export default function ShareSection() {
 
   const handleCopyLink = async () => {
     const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || "https://test1-peach-six.vercel.app/invitation/sample";
+      process.env.NEXT_PUBLIC_SITE_URL || "https://test1-peach-six.vercel.app";
     const invitationUrl = `${siteUrl}/invitation/${invitationData.slug}`;
 
     try {
