@@ -9,6 +9,7 @@ import LocationSection from "@/components/invitation/location-section";
 import AccountSection from "@/components/invitation/account-section";
 import RevealSection from "@/components/invitation/reveal-section";
 import ShareSection from "@/components/invitation/share-section";
+import GuestbookSection from "@/components/invitation/guestbook-section";
 
 export default function InvitationPageClient() {
   const data = invitationData;
@@ -60,7 +61,7 @@ export default function InvitationPageClient() {
 
   return (
     <>
-      <audio ref={audioRef} src="/music/wedding-bgm.mp3" loop preload="auto" />
+      <audio ref={audioRef} src="/music/k .mp3" loop preload="auto" />
 
       <button
         type="button"
@@ -71,59 +72,39 @@ export default function InvitationPageClient() {
       </button>
 
       <main className="mx-auto min-h-screen w-full max-w-[720px] bg-white shadow-lg">
+        {/* 메인 섹션 */}
         <section className="relative flex min-h-screen items-center justify-center overflow-hidden text-center">
           <img
-            src={data.gallery?.[0]?.imageUrl || "/gallery/main-visual.jpeg"}
+            src={data.gallery?.[0]?.imageUrl || "/gallery/main-visual.jpg"}
             alt="청첩장 메인 이미지"
             className="absolute inset-0 h-full w-full object-cover"
           />
 
           <div className="absolute inset-0 bg-black/35" />
-
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/25 to-black/50" />
 
           <div className="relative z-10 px-6 text-white md:px-10">
-            <p
-              className={`mb-5 text-xs tracking-[0.4em] text-white/85 ${fadeClass(
-                introStep >= 1
-              )}`}
-            >
+            <p className={`mb-5 text-xs tracking-[0.4em] text-white/85 ${fadeClass(introStep >= 1)}`}>
               WEDDING INVITATION
             </p>
 
-            <p
-              className={`mb-4 text-sm leading-7 text-white/90 md:text-base ${fadeClass(
-                introStep >= 2
-              )}`}
-            >
+            <p className={`mb-4 text-sm leading-7 text-white/90 md:text-base ${fadeClass(introStep >= 2)}`}>
               소중한 분들을 초대합니다
             </p>
 
-            <h1
-              className={`text-4xl font-light leading-tight md:text-5xl ${fadeClass(
-                introStep >= 3
-              )}`}
-            >
+            <h1 className={`text-4xl font-light leading-tight md:text-5xl ${fadeClass(introStep >= 3)}`}>
               {data.groomName}
               <span className="mx-3 text-white/70">·</span>
               {data.brideName}
             </h1>
 
-            <p
-              className={`mt-6 whitespace-pre-line text-sm leading-7 text-white/90 md:text-base md:leading-8 ${fadeClass(
-                introStep >= 4
-              )}`}
-            >
+            <p className={`mt-6 whitespace-pre-line text-sm leading-7 text-white/90 md:text-base md:leading-8 ${fadeClass(introStep >= 4)}`}>
               서로의 모든 날을 함께하고 싶은 두 사람이
               {"\n"}
               이제 평생의 약속을 하려 합니다.
             </p>
 
-            <div
-              className={`mt-8 space-y-2 text-sm text-white/85 md:text-base ${fadeClass(
-                introStep >= 5
-              )}`}
-            >
+            <div className={`mt-8 space-y-2 text-sm text-white/85 md:text-base ${fadeClass(introStep >= 5)}`}>
               <p>{data.weddingDateText}</p>
               <p>
                 {data.venueName} {data.venueHall}
@@ -191,6 +172,7 @@ export default function InvitationPageClient() {
           <AccountSection accounts={data.accounts} />
         </RevealSection>
 
+        {/* 갤러리 */}
         <RevealSection>
           <section className="px-6 py-10 md:px-10">
             <h2 className="mb-8 text-center text-[34px] font-light text-gray-900">
@@ -229,6 +211,12 @@ export default function InvitationPageClient() {
           </section>
         </RevealSection>
 
+        {/* 방명록 */}
+        <RevealSection>
+          <GuestbookSection slug={data.slug} />
+        </RevealSection>
+
+        {/* 공유 */}
         <RevealSection>
           <ShareSection />
         </RevealSection>
