@@ -2,6 +2,18 @@
 
 import { invitationData } from "@/lib/data";
 
+declare global {
+  interface Window {
+    Kakao: {
+      init: (appKey: string) => void;
+      isInitialized: () => boolean;
+      Share: {
+        sendDefault: (options: unknown) => void;
+      };
+    };
+  }
+}
+
 export default function ShareSection() {
   const handleKakaoShare = () => {
     const { Kakao } = window;
@@ -12,7 +24,7 @@ export default function ShareSection() {
     }
 
     if (!Kakao.isInitialized()) {
-      const kakaoKey = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
+      const kakaoKey = '31fac3c9801dcec88238a79ed411f604';
       if (!kakaoKey) {
         alert("카카오 JavaScript 키가 설정되지 않았어요.");
         return;
@@ -20,17 +32,14 @@ export default function ShareSection() {
       Kakao.init(kakaoKey);
     }
 
-    const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || "https://test1-peach-six.vercel.app";
-
-    const invitationUrl = `${siteUrl}/invitation/${invitationData.slug}`;
+    const invitationUrl = `${window.location.origin}/invitation/${invitationData.slug}`;
 
     Kakao.Share.sendDefault({
       objectType: "feed",
       content: {
         title: `${invitationData.groomName} · ${invitationData.brideName} 결혼합니다`,
         description: `${invitationData.weddingDateText} | ${invitationData.venueName} ${invitationData.venueHall}`,
-        imageUrl: `${siteUrl}/gallery/1.jpg`,
+        imageUrl: `${window.location.origin}/thumbnail.jpg`,
         link: {
           mobileWebUrl: invitationUrl,
           webUrl: invitationUrl,
@@ -49,9 +58,7 @@ export default function ShareSection() {
   };
 
   const handleCopyLink = async () => {
-    const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || "https://test1-peach-six.vercel.app";
-    const invitationUrl = `${siteUrl}/invitation/${invitationData.slug}`;
+    const invitationUrl = `${window.location.origin}/invitation/${invitationData.slug}`;
 
     try {
       await navigator.clipboard.writeText(invitationUrl);
@@ -63,7 +70,7 @@ export default function ShareSection() {
 
   return (
     <section className="mx-auto mt-12 max-w-md px-6 pb-16 text-center">
-      <h2 className="mb-4 text-lg font-semibold">공유하기</h2>
+      <h2 className="mb-34 text-gray-900 font-semibold">공유하기</h2>
 
       <div className="flex flex-col gap-3">
         <button

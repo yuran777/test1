@@ -24,8 +24,6 @@ export default function AccountSection({ accounts }: Props) {
   )
 
   const handleCopy = async (account: Account) => {
-    const text = `${account.bank} ${account.accountNumber} (${account.holder})`
-
     try {
       await navigator.clipboard.writeText(account.accountNumber)
       setCopiedValue(account.accountNumber)
@@ -45,9 +43,22 @@ export default function AccountSection({ accounts }: Props) {
 
   return (
     <section className="px-6 py-12">
-      <h2 className="mb-10 text-center text-[34px] font-light text-gray-900">
-        ACCOUNT
+      <h2 className="mb-8 text-center text-[34px] font-light text-[#d7a1aa]">
+        마음 전하실 곳
       </h2>
+
+      <div className="mb-12 text-center">
+        <p className="whitespace-pre-line text-[18px] leading-[2] text-gray-700 md:text-[20px]">
+          멀리서도 축하의 마음을{"\n"}
+          전하고 싶으신 분들을 위해{"\n"}
+          계좌번호를 안내드립니다.
+        </p>
+
+        <p className="mt-10 whitespace-pre-line text-[18px] leading-[2] text-gray-700 md:text-[20px]">
+          소중한 축하를 보내주셔서 감사드리며,{"\n"}
+          따뜻한 마음에 깊이 감사드립니다.
+        </p>
+      </div>
 
       <div className="border-b border-gray-200">
         <AccordionHeader
