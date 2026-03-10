@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { invitationData } from "@/lib/data";
 import GalleryModal from "@/components/invitation/gallery-modal";
 import ContactModal from "@/components/invitation/contact-modal";
@@ -17,139 +17,233 @@ export default function InvitationPageClient() {
   const [contactOpen, setContactOpen] = useState(false);
   const [showAllGallery, setShowAllGallery] = useState(false);
 
+  const [introStep, setIntroStep] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
   const visibleGallery = showAllGallery ? data.gallery : data.gallery.slice(0, 9);
 
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setIntroStep(1), 200),
+      setTimeout(() => setIntroStep(2), 900),
+      setTimeout(() => setIntroStep(3), 1600),
+      setTimeout(() => setIntroStep(4), 2300),
+      setTimeout(() => setIntroStep(5), 3000),
+    ];
+
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  const fadeClass = (visible: boolean) =>
+    `transform transition-all duration-1000 ease-out ${
+      visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+    }`;
+
+  const toggleMusic = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    try {
+      if (audio.paused) {
+        await audio.play();
+        setIsPlaying(true);
+      } else {
+        audio.pause();
+        setIsPlaying(false);
+      }
+    } catch (error) {
+      console.error("배경음악 재생 실패:", error);
+    }
+  };
+
   return (
-    <main className="mx-auto min-h-screen w-full max-w-[720px] bg-white shadow-lg">
-      <RevealSection delay={0}>
-        <section className="px-6 pt-14 pb-10 text-center md:px-10">
-          <p className="mb-6 text-xs tracking-[0.35em] text-gray-500">
-            💍 WEDDING INVITATION
-          </p>
+    <>
+      <audio ref={audioRef} src="/music/wedding-bgm.mp3" loop preload="auto" />
 
-          <h1 className="text-3xl font-light text-gray-900 md:text-4xl">
-            {data.groomName}
-            <span className="mx-2 text-gray-300">·</span>
-            {data.brideName}
-          </h1>
+      <button
+        type="button"
+        onClick={toggleMusic}
+        className="fixed right-4 top-4 z-50 rounded-full bg-black/45 px-4 py-2 text-sm font-medium text-white shadow-md backdrop-blur transition hover:scale-105"
+      >
+        {isPlaying ? "🎵 음악 끄기" : "🎵 음악 재생"}
+      </button>
 
-          <p className="mt-6 text-sm text-gray-600 md:text-base">
-            {data.weddingDateText}
-          </p>
+      <main className="mx-auto min-h-screen w-full max-w-[720px] bg-white shadow-lg">
+        <section className="relative flex min-h-screen items-center justify-center overflow-hidden text-center">
+          <img
+            src={data.gallery?.[0]?.imageUrl || "/gallery/main-visual.jpeg"}
+            alt="청첩장 메인 이미지"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
 
-          <p className="mt-3 text-sm text-gray-500 md:text-base">
-            {data.venueName} {data.venueHall}
-          </p>
-        </section>
-      </RevealSection>
+          <div className="absolute inset-0 bg-black/35" />
 
-      <RevealSection delay={100}>
-        <section className="px-8 py-10 text-center md:px-14">
-          <p className="whitespace-pre-line text-sm leading-7 text-gray-700 md:text-base md:leading-8">
-            {data.message}
-          </p>
-        </section>
-      </RevealSection>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/25 to-black/50" />
 
-      <RevealSection delay={150}>
-        <section className="space-y-3 px-6 text-center text-sm text-gray-600 md:text-base">
-          <p>
-            ㅇㅇㅇ · ㅇㅇㅇ 의 아들
-            <strong className="ml-2 text-gray-900">성우</strong>
-          </p>
+          <div className="relative z-10 px-6 text-white md:px-10">
+            <p
+              className={`mb-5 text-xs tracking-[0.4em] text-white/85 ${fadeClass(
+                introStep >= 1
+              )}`}
+            >
+              WEDDING INVITATION
+            </p>
 
-          <p>
-            김용호 · 임동미 의 딸
-            <strong className="ml-2 text-gray-900">유란</strong>
-          </p>
-        </section>
-      </RevealSection>
+            <p
+              className={`mb-4 text-sm leading-7 text-white/90 md:text-base ${fadeClass(
+                introStep >= 2
+              )}`}
+            >
+              소중한 분들을 초대합니다
+            </p>
 
-      <RevealSection delay={200}>
-        <section className="py-10 text-center">
-          <button
-            onClick={() => setContactOpen(true)}
-            className="rounded-lg bg-gray-900 px-8 py-3 text-sm font-medium text-white transition-transform duration-200 hover:scale-[1.02]"
-          >
-            연락하기
-          </button>
-        </section>
-      </RevealSection>
+            <h1
+              className={`text-4xl font-light leading-tight md:text-5xl ${fadeClass(
+                introStep >= 3
+              )}`}
+            >
+              {data.groomName}
+              <span className="mx-3 text-white/70">·</span>
+              {data.brideName}
+            </h1>
 
-      <RevealSection>
-        <CalendarSection
-          groomName={data.groomName}
-          brideName={data.brideName}
-          weddingDate={data.weddingDate}
-        />
-      </RevealSection>
+            <p
+              className={`mt-6 whitespace-pre-line text-sm leading-7 text-white/90 md:text-base md:leading-8 ${fadeClass(
+                introStep >= 4
+              )}`}
+            >
+              서로의 모든 날을 함께하고 싶은 두 사람이
+              {"\n"}
+              이제 평생의 약속을 하려 합니다.
+            </p>
 
-      <RevealSection>
-        <LocationSection
-          venueName={data.venueName}
-          venueHall={data.venueHall}
-          venueAddress={data.venueAddress}
-          mapLinks={data.mapLinks}
-          locationInfo={data.locationInfo}
-        />
-      </RevealSection>
-
-      <RevealSection>
-        <AccountSection accounts={data.accounts} />
-      </RevealSection>
-
-      <RevealSection>
-        <section className="px-6 py-10 md:px-10">
-          <h2 className="mb-8 text-center text-[34px] font-light text-gray-900">
-            GALLERY
-          </h2>
-
-          <div className="grid grid-cols-3 gap-2 md:grid-cols-4">
-            {visibleGallery.map((img) => {
-              const originalIndex = data.gallery.findIndex(
-                (item) => item.id === img.id
-              );
-
-              return (
-                <img
-                  key={img.id}
-                  src={img.imageUrl}
-                  alt={`갤러리 이미지 ${img.id}`}
-                  className="cursor-pointer rounded-lg transition-transform duration-300 hover:scale-[1.03]"
-                  onClick={() => setSelectedImageIndex(originalIndex)}
-                />
-              );
-            })}
+            <div
+              className={`mt-8 space-y-2 text-sm text-white/85 md:text-base ${fadeClass(
+                introStep >= 5
+              )}`}
+            >
+              <p>{data.weddingDateText}</p>
+              <p>
+                {data.venueName} {data.venueHall}
+              </p>
+            </div>
           </div>
 
-          {data.gallery.length > 9 && !showAllGallery && (
-            <div className="mt-6 text-center">
-              <button
-                type="button"
-                onClick={() => setShowAllGallery(true)}
-                className="rounded-lg bg-gray-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-800"
-              >
-                더보기
-              </button>
-            </div>
-          )}
+          <div className="absolute bottom-10 z-10 animate-bounce text-xs tracking-[0.3em] text-white/80">
+            SCROLL
+          </div>
         </section>
-      </RevealSection>
 
-      <RevealSection>
-        <ShareSection />
-      </RevealSection>
+        <RevealSection delay={100}>
+          <section className="px-8 py-10 text-center md:px-14">
+            <p className="whitespace-pre-line text-sm leading-7 text-gray-700 md:text-base md:leading-8">
+              {data.message}
+            </p>
+          </section>
+        </RevealSection>
 
-      <GalleryModal
-        images={data.gallery.map((item) => item.imageUrl)}
-        selectedIndex={selectedImageIndex}
-        onClose={() => setSelectedImageIndex(null)}
-      />
+        <RevealSection delay={150}>
+          <section className="space-y-3 px-6 text-center text-sm text-gray-600 md:text-base">
+            <p>
+              ㅇㅇㅇ · ㅇㅇㅇ 의 아들
+              <strong className="ml-2 text-gray-900">성우</strong>
+            </p>
 
-      <ContactModal
-        open={contactOpen}
-        onClose={() => setContactOpen(false)}
-      />
-    </main>
+            <p>
+              김용호 · 임동미 의 딸
+              <strong className="ml-2 text-gray-900">유란</strong>
+            </p>
+          </section>
+        </RevealSection>
+
+        <RevealSection delay={200}>
+          <section className="py-10 text-center">
+            <button
+              onClick={() => setContactOpen(true)}
+              className="rounded-lg bg-gray-900 px-8 py-3 text-sm font-medium text-white transition-transform duration-200 hover:scale-[1.02]"
+            >
+              연락하기
+            </button>
+          </section>
+        </RevealSection>
+
+        <RevealSection>
+          <CalendarSection
+            groomName={data.groomName}
+            brideName={data.brideName}
+            weddingDate={data.weddingDate}
+          />
+        </RevealSection>
+
+        <RevealSection>
+          <LocationSection
+            venueName={data.venueName}
+            venueHall={data.venueHall}
+            venueAddress={data.venueAddress}
+            mapLinks={data.mapLinks}
+            locationInfo={data.locationInfo}
+          />
+        </RevealSection>
+
+        <RevealSection>
+          <AccountSection accounts={data.accounts} />
+        </RevealSection>
+
+        <RevealSection>
+          <section className="px-6 py-10 md:px-10">
+            <h2 className="mb-8 text-center text-[34px] font-light text-gray-900">
+              GALLERY
+            </h2>
+
+            <div className="grid grid-cols-3 gap-2 md:grid-cols-4">
+              {visibleGallery.map((img) => {
+                const originalIndex = data.gallery.findIndex(
+                  (item) => item.id === img.id
+                );
+
+                return (
+                  <img
+                    key={img.id}
+                    src={img.imageUrl}
+                    alt={`갤러리 이미지 ${img.id}`}
+                    className="cursor-pointer rounded-lg transition-transform duration-300 hover:scale-[1.03]"
+                    onClick={() => setSelectedImageIndex(originalIndex)}
+                  />
+                );
+              })}
+            </div>
+
+            {data.gallery.length > 9 && !showAllGallery && (
+              <div className="mt-6 text-center">
+                <button
+                  type="button"
+                  onClick={() => setShowAllGallery(true)}
+                  className="rounded-lg bg-gray-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-800"
+                >
+                  더보기
+                </button>
+              </div>
+            )}
+          </section>
+        </RevealSection>
+
+        <RevealSection>
+          <ShareSection />
+        </RevealSection>
+
+        <GalleryModal
+          images={data.gallery.map((item) => item.imageUrl)}
+          selectedIndex={selectedImageIndex}
+          onClose={() => setSelectedImageIndex(null)}
+        />
+
+        <ContactModal
+          open={contactOpen}
+          onClose={() => setContactOpen(false)}
+        />
+      </main>
+    </>
   );
 }
