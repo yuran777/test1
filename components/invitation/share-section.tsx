@@ -70,7 +70,9 @@ export default function ShareSection() {
 
   return (
     <section className="mx-auto mt-12 max-w-md px-6 pb-16 text-center">
-      <h2 className="mb-34 text-gray-900 font-semibold">공유하기</h2>
+      <h2 className="mb-10 text-center text-[34px] text-gray-700">
+        공유하기
+      </h2>
 
       <div className="flex flex-col gap-3">
         <button

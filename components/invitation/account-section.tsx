@@ -43,7 +43,7 @@ export default function AccountSection({ accounts }: Props) {
 
   return (
     <section className="px-6 py-12">
-      <h2 className="mb-8 text-center text-[34px] font-light text-[#d7a1aa]">
+      <h2 className="mb-10 text-center text-[34px] text-gray-700">
         마음 전하실 곳
       </h2>
 
