@@ -8,6 +8,7 @@ import CalendarSection from "@/components/invitation/calendar-section"
 import LocationSection from "@/components/invitation/location-section"
 import AccountSection from "@/components/invitation/account-section"
 import RevealSection from "@/components/invitation/reveal-section"
+import ShareSection from "@/components/invitation/share-section"
 
 export default function InvitationPage() {
   const data = invitationData
@@ -22,6 +23,7 @@ export default function InvitationPage() {
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-[720px] bg-white shadow-lg">
+
       <RevealSection delay={0}>
         <section className="text-center px-6 pt-14 pb-10 md:px-10">
           <p className="mb-6 text-xs tracking-[0.35em] text-gray-500">
@@ -44,6 +46,7 @@ export default function InvitationPage() {
         </section>
       </RevealSection>
 
+
       <RevealSection delay={100}>
         <section className="px-8 py-10 text-center md:px-14">
           <p className="whitespace-pre-line text-sm leading-7 text-gray-700 md:text-base md:leading-8">
@@ -51,6 +54,7 @@ export default function InvitationPage() {
           </p>
         </section>
       </RevealSection>
+
 
       <RevealSection delay={150}>
         <section className="space-y-3 px-6 text-center text-sm text-gray-600 md:text-base">
@@ -66,6 +70,7 @@ export default function InvitationPage() {
         </section>
       </RevealSection>
 
+
       <RevealSection delay={200}>
         <section className="py-10 text-center">
           <button
@@ -77,6 +82,7 @@ export default function InvitationPage() {
         </section>
       </RevealSection>
 
+
       <RevealSection>
         <CalendarSection
           groomName={data.groomName}
@@ -84,6 +90,7 @@ export default function InvitationPage() {
           weddingDate={data.weddingDate}
         />
       </RevealSection>
+
 
       <RevealSection>
         <LocationSection
@@ -95,9 +102,11 @@ export default function InvitationPage() {
         />
       </RevealSection>
 
+
       <RevealSection>
         <AccountSection accounts={data.accounts} />
       </RevealSection>
+
 
       <RevealSection>
         <section className="px-6 py-10 md:px-10">
@@ -137,6 +146,13 @@ export default function InvitationPage() {
         </section>
       </RevealSection>
 
+
+      {/* 공유하기 추가 */}
+      <RevealSection>
+        <ShareSection />
+      </RevealSection>
+
+
       <GalleryModal
         images={data.gallery.map((item) => item.imageUrl)}
         selectedIndex={selectedImageIndex}
@@ -147,6 +163,7 @@ export default function InvitationPage() {
         open={contactOpen}
         onClose={() => setContactOpen(false)}
       />
+
     </main>
   )
 }
