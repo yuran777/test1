@@ -61,7 +61,7 @@ export default function InvitationPageClient() {
 
   return (
     <>
-      <audio ref={audioRef} src="/music/k .mp3" loop preload="auto" />
+      <audio ref={audioRef} src="/music/wedding-bgm.mp3" loop preload="auto" />
 
       <button
         type="button"
