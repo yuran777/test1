@@ -18,15 +18,18 @@ export default function GuestbookSection({ slug }: Props) {
   const fetchGuestbooks = async () => {
     try {
       setFetching(true);
+      setError("");
+
       const res = await fetch(`/api/guestbook?slug=${slug}`, {
         cache: "no-store",
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        throw new Error("방명록을 불러오지 못했습니다.");
+        throw new Error(data.message || "방명록을 불러오지 못했습니다.");
       }
 
-      const data = await res.json();
       setItems(data);
     } catch (e) {
       setError(e instanceof Error ? e.message : "오류가 발생했습니다.");
@@ -76,6 +79,70 @@ export default function GuestbookSection({ slug }: Props) {
       setError(e instanceof Error ? e.message : "오류가 발생했습니다.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleLike = async (id: string) => {
+    try {
+      const alreadyLiked = localStorage.getItem(`guestbook-liked-${id}`);
+
+      if (alreadyLiked) {
+        alert("이미 좋아요를 눌렀어요.");
+        return;
+      }
+
+      const res = await fetch("/api/guestbook", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "좋아요 처리에 실패했습니다.");
+      }
+
+      setItems((prev) =>
+        prev.map((item) =>
+          item.id === id ? { ...item, likes: data.likes } : item
+        )
+      );
+
+      localStorage.setItem(`guestbook-liked-${id}`, "true");
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "오류가 발생했습니다.");
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    const adminPassword = window.prompt("관리자 비밀번호를 입력해주세요.");
+    if (!adminPassword) return;
+
+    try {
+      const res = await fetch("/api/guestbook", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+          adminPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "삭제에 실패했습니다.");
+      }
+
+      setItems((prev) => prev.filter((item) => item.id !== id));
+      alert("삭제되었습니다.");
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "오류가 발생했습니다.");
     }
   };
 
@@ -131,15 +198,34 @@ export default function GuestbookSection({ slug }: Props) {
               key={item.id}
               className="rounded-2xl border border-gray-200 p-5"
             >
-              <div className="mb-2 flex items-center justify-between">
+              <div className="mb-2 flex items-center justify-between gap-3">
                 <strong className="text-sm text-gray-900">{item.name}</strong>
                 <span className="text-xs text-gray-400">
-                  {new Date(item.createdAt).toLocaleString("ko-KR")}
+                  {new Date(item.created_at).toLocaleString("ko-KR")}
                 </span>
               </div>
-              <p className="whitespace-pre-line text-sm leading-6 text-gray-700">
+
+              <p className="mb-4 whitespace-pre-line text-sm leading-6 text-gray-700">
                 {item.message}
               </p>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleLike(item.id)}
+                  className="rounded-lg border border-pink-200 px-3 py-2 text-sm text-pink-600 transition hover:bg-pink-50"
+                >
+                  ❤️ 좋아요 {item.likes ?? 0}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleDelete(item.id)}
+                  className="rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-50"
+                >
+                  삭제
+                </button>
+              </div>
             </article>
           ))
         )}

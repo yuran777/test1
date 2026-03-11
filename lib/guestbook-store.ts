@@ -6,14 +6,14 @@ const guestbookStore: GuestbookItem[] = [
     slug: "default",
     name: "축하객",
     message: "결혼 진심으로 축하드려요!",
-    createdAt: new Date().toISOString(),
+    created_at: new Date().toISOString(),
   },
 ];
 
 export function getGuestbooksBySlug(slug: string) {
   return guestbookStore
     .filter((item) => item.slug === slug)
-    .sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+    .sort((a, b) => +new Date(b.created_at) - +new Date(a.created_at));
 }
 
 export function createGuestbook(slug: string, name: string, message: string) {
@@ -22,7 +22,7 @@ export function createGuestbook(slug: string, name: string, message: string) {
     slug,
     name,
     message,
-    createdAt: new Date().toISOString(),
+    created_at: new Date().toISOString(),
   };
 
   guestbookStore.unshift(newItem);
