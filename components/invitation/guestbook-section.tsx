@@ -100,7 +100,7 @@ export default function GuestbookSection({ slug }: Props) {
       {/* 통일된 타이틀 */}
       <div className="mb-10 text-center">
         <p className="mb-2 text-xs tracking-[0.4em] text-gray-400">GUESTBOOK</p>
-        <h2 className="text-[28px] font-light text-gray-900">마음 전하실 곳</h2>
+        <h2 className="text-[28px] font-light text-gray-900">방명록</h2>
         <div className="mx-auto mt-3 h-px w-10 bg-gray-300" />
       </div>
 
