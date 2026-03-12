@@ -100,7 +100,7 @@ export default function GuestbookSection({ slug }: Props) {
       {/* 통일된 타이틀 */}
       <div className="mb-10 text-center">
         <p className="mb-2 text-xs tracking-[0.4em] text-gray-400">GUESTBOOK</p>
-        <h2 className="text-[28px] font-light text-gray-900">방명록</h2>
+        <h2 className="text-[28px] font-light text-gray-900">마음 전하실 곳</h2>
         <div className="mx-auto mt-3 h-px w-10 bg-gray-300" />
       </div>
 
@@ -114,7 +114,8 @@ export default function GuestbookSection({ slug }: Props) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           maxLength={20}
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none focus:border-gray-900"
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none focus:border-gray-900"
+          style={{ color: "#111827" }}
         />
         <textarea
           placeholder="축하 메시지를 남겨주세요"
@@ -122,7 +123,8 @@ export default function GuestbookSection({ slug }: Props) {
           onChange={(e) => setMessage(e.target.value)}
           maxLength={300}
           rows={4}
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none focus:border-gray-900"
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none focus:border-gray-900"
+          style={{ color: "#111827" }}
         />
         {error ? <p className="text-sm text-red-500">{error}</p> : null}
         <button
@@ -134,35 +136,35 @@ export default function GuestbookSection({ slug }: Props) {
         </button>
       </form>
 
-      <div className="space-y-4">
+      <div className="overflow-y-auto space-y-4" style={{ maxHeight: "360px" }}>
         {fetching ? (
           <p className="text-center text-sm text-gray-500">불러오는 중...</p>
         ) : items.length === 0 ? (
           <p className="text-center text-sm text-gray-500">첫 번째 축하 메시지를 남겨보세요.</p>
         ) : (
           items.map((item) => (
-            <article key={item.id} className="rounded-2xl border border-gray-200 p-5">
-              <div className="mb-2 flex items-center justify-between gap-3">
-                <strong className="text-sm text-gray-900">{item.name}</strong>
-                <span className="text-xs text-gray-400">
+            <article key={item.id} className="rounded-xl border border-gray-200 p-3">
+              <div className="mb-1.5 flex items-center justify-between gap-2">
+                <strong className="text-xs font-semibold text-gray-900">{item.name}</strong>
+                <span className="text-[11px] text-gray-400">
                   {new Date(item.created_at).toLocaleString("ko-KR")}
                 </span>
               </div>
-              <p className="mb-4 whitespace-pre-line text-sm leading-6 text-gray-700">
+              <p className="mb-2.5 whitespace-pre-line text-xs leading-5 text-gray-700">
                 {item.message}
               </p>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => handleLike(item.id)}
-                  className="rounded-lg border border-pink-200 px-3 py-2 text-sm text-pink-600 transition hover:bg-pink-50"
+                  className="rounded-md border border-pink-200 px-2 py-1 text-xs text-pink-600 transition hover:bg-pink-50"
                 >
                   ❤️ 좋아요 {item.likes ?? 0}
                 </button>
                 <button
                   type="button"
                   onClick={() => handleDelete(item.id)}
-                  className="rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-50"
+                  className="rounded-md border border-gray-200 px-2 py-1 text-xs text-gray-600 transition hover:bg-gray-50"
                 >
                   삭제
                 </button>
