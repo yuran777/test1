@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 import { invitationData } from "@/lib/data";
 import GalleryModal from "@/components/invitation/gallery-modal";
@@ -10,19 +9,20 @@ import AccountSection from "@/components/invitation/account-section";
 import RevealSection from "@/components/invitation/reveal-section";
 import ShareSection from "@/components/invitation/share-section";
 import GuestbookSection from "@/components/invitation/guestbook-section";
+import RsvpSection from "@/components/invitation/RsvpSection"; // ← 추가
 
-export default function InvitationPageClient() {
+interface Props {
+  slug: string; // ← 추가
+}
+
+export default function InvitationPageClient({ slug }: Props) { // ← slug 받기
   const data = invitationData;
-
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [contactOpen, setContactOpen] = useState(false);
   const [showAllGallery, setShowAllGallery] = useState(false);
-
   const [introStep, setIntroStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
   const visibleGallery = showAllGallery ? data.gallery : data.gallery.slice(0, 9);
 
   useEffect(() => {
@@ -33,7 +33,6 @@ export default function InvitationPageClient() {
       setTimeout(() => setIntroStep(4), 2300),
       setTimeout(() => setIntroStep(5), 3000),
     ];
-
     return () => timers.forEach(clearTimeout);
   }, []);
 
@@ -45,7 +44,6 @@ export default function InvitationPageClient() {
   const toggleMusic = async () => {
     const audio = audioRef.current;
     if (!audio) return;
-
     try {
       if (audio.paused) {
         await audio.play();
@@ -62,7 +60,6 @@ export default function InvitationPageClient() {
   return (
     <>
       <audio ref={audioRef} src="/music/wedding-bgm.mp3" loop preload="auto" />
-
       <button
         type="button"
         onClick={toggleMusic}
@@ -79,31 +76,24 @@ export default function InvitationPageClient() {
             alt="청첩장 메인 이미지"
             className="absolute inset-0 h-full w-full object-cover"
           />
-
           <div className="absolute inset-0 bg-black/35" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/25 to-black/50" />
-
           <div className="relative z-10 px-6 text-white md:px-10">
             <p className={`mb-5 text-xs tracking-[0.4em] text-white/85 ${fadeClass(introStep >= 1)}`}>
               WEDDING INVITATION
             </p>
-
             <p className={`mb-4 text-sm leading-7 text-white/90 md:text-base ${fadeClass(introStep >= 2)}`}>
               소중한 분들을 초대합니다
             </p>
-
             <h1 className={`text-4xl font-light leading-tight md:text-5xl ${fadeClass(introStep >= 3)}`}>
               {data.groomName}
               <span className="mx-3 text-white/70">·</span>
               {data.brideName}
             </h1>
-
             <p className={`mt-6 whitespace-pre-line text-sm leading-7 text-white/90 md:text-base md:leading-8 ${fadeClass(introStep >= 4)}`}>
-              서로의 모든 날을 함께하고 싶은 두 사람이
-              {"\n"}
+              서로의 모든 날을 함께하고 싶은 두 사람이{"\n"}
               이제 평생의 약속을 하려 합니다.
             </p>
-
             <div className={`mt-8 space-y-2 text-sm text-white/85 md:text-base ${fadeClass(introStep >= 5)}`}>
               <p>{data.weddingDateText}</p>
               <p>
@@ -111,7 +101,6 @@ export default function InvitationPageClient() {
               </p>
             </div>
           </div>
-
           <div className="absolute bottom-10 z-10 animate-bounce text-xs tracking-[0.3em] text-white/80">
             SCROLL
           </div>
@@ -131,7 +120,6 @@ export default function InvitationPageClient() {
               ㅇㅇㅇ · ㅇㅇㅇ 의 아들
               <strong className="ml-2 text-gray-900">성우</strong>
             </p>
-
             <p>
               김용호 · 임동미 의 딸
               <strong className="ml-2 text-gray-900">유란</strong>
@@ -178,13 +166,11 @@ export default function InvitationPageClient() {
             <h2 className="mb-8 text-center text-[34px] font-light text-gray-900">
               GALLERY
             </h2>
-
             <div className="grid grid-cols-3 gap-2 md:grid-cols-4">
               {visibleGallery.map((img) => {
                 const originalIndex = data.gallery.findIndex(
                   (item) => item.id === img.id
                 );
-
                 return (
                   <img
                     key={img.id}
@@ -196,7 +182,6 @@ export default function InvitationPageClient() {
                 );
               })}
             </div>
-
             {data.gallery.length > 9 && !showAllGallery && (
               <div className="mt-6 text-center">
                 <button
@@ -216,6 +201,17 @@ export default function InvitationPageClient() {
           <GuestbookSection slug={data.slug} />
         </RevealSection>
 
+        {/* RSVP */}
+        <RevealSection>
+          <RsvpSection
+            slug={slug}
+            groomName={data.groomName}
+            brideName={data.brideName}
+            weddingDate={`${data.weddingDateText} ${data.venueHall}`}
+            weddingVenue={`${data.venueName} ${data.venueHall}`}
+          />
+        </RevealSection>
+
         {/* 공유 */}
         <RevealSection>
           <ShareSection />
@@ -226,7 +222,6 @@ export default function InvitationPageClient() {
           selectedIndex={selectedImageIndex}
           onClose={() => setSelectedImageIndex(null)}
         />
-
         <ContactModal
           open={contactOpen}
           onClose={() => setContactOpen(false)}

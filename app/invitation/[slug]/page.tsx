@@ -8,7 +8,6 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-
   const siteUrl = "https://test1-peach-six.vercel.app";
   const pageUrl = `${siteUrl}/invitation/${slug}`;
 
@@ -47,5 +46,5 @@ export default async function Page({ params }: Props) {
     return <div className="p-10 text-center">존재하지 않는 청첩장입니다.</div>;
   }
 
-  return <InvitationPageClient />;
+  return <InvitationPageClient slug={slug} />;  // ← slug 추가
 }
