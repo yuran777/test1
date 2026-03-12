@@ -113,11 +113,13 @@ export default function RsvpSection({
       {/* 팝업 오버레이 */}
       {showPopup && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-5"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
           onClick={handleClose}
         >
           <div
-            className="relative max-h-[90vh] w-full max-w-[480px] overflow-y-auto rounded-xl bg-white"
+            className="relative overflow-y-auto rounded-xl bg-white"
+            style={{ width: "90vw", maxWidth: 560, maxHeight: "90vh" }}
             onClick={(e) => e.stopPropagation()}
           >
             <button

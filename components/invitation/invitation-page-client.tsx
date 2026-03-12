@@ -162,10 +162,12 @@ export default function InvitationPageClient({ slug }: Props) { // ← slug 받�
 
         {/* 갤러리 */}
         <RevealSection>
-          <section className="px-6 py-10 md:px-10">
-            <h2 className="mb-8 text-center text-[34px] font-light text-gray-900">
-              GALLERY
-            </h2>
+          <section className="px-6 py-12 md:px-10">
+            <div className="mb-10 text-center">
+              <p className="mb-2 text-xs tracking-[0.4em] text-gray-400">GALLERY</p>
+              <h2 className="text-[28px] font-light text-gray-900">웨딩 사진</h2>
+              <div className="mx-auto mt-3 h-px w-10 bg-gray-300" />
+            </div>
             <div className="grid grid-cols-3 gap-2 md:grid-cols-4">
               {visibleGallery.map((img) => {
                 const originalIndex = data.gallery.findIndex(
