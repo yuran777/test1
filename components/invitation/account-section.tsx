@@ -28,24 +28,22 @@ export default function AccountSection({ accounts }: Props) {
       await navigator.clipboard.writeText(account.accountNumber)
       setCopiedValue(account.accountNumber)
       setToastMessage("계좌번호가 복사되었습니다.")
-
-      setTimeout(() => {
-        setToastMessage("")
-        setCopiedValue("")
-      }, 1800)
+      setTimeout(() => { setToastMessage(""); setCopiedValue("") }, 1800)
     } catch {
       setToastMessage("복사에 실패했습니다.")
-      setTimeout(() => {
-        setToastMessage("")
-      }, 1800)
+      setTimeout(() => { setToastMessage("") }, 1800)
     }
   }
 
   return (
-    <section className="px-6 py-12">
-      <h2 className="mb-10 text-center text-[34px] text-gray-700">
-        마음 전하실 곳
-      </h2>
+    <section className="px-6 py-12 md:px-10">
+
+      {/* 통일된 타이틀 */}
+      <div className="mb-10 text-center">
+        <p className="mb-2 text-xs tracking-[0.4em] text-gray-400">ACCOUNT</p>
+        <h2 className="text-[28px] font-light text-gray-900">마음 전하실 곳</h2>
+        <div className="mx-auto mt-3 h-px w-10 bg-gray-300" />
+      </div>
 
       <div className="mb-12 text-center">
         <p className="whitespace-pre-line text-[18px] leading-[2] text-gray-700 md:text-[20px]">
@@ -53,7 +51,6 @@ export default function AccountSection({ accounts }: Props) {
           전하고 싶으신 분들을 위해{"\n"}
           계좌번호를 안내드립니다.
         </p>
-
         <p className="mt-10 whitespace-pre-line text-[18px] leading-[2] text-gray-700 md:text-[20px]">
           소중한 축하를 보내주셔서 감사드리며,{"\n"}
           따뜻한 마음에 깊이 감사드립니다.
@@ -64,11 +61,8 @@ export default function AccountSection({ accounts }: Props) {
         <AccordionHeader
           title="신랑측 계좌번호"
           isOpen={openSide === "groom"}
-          onClick={() =>
-            setOpenSide((prev) => (prev === "groom" ? null : "groom"))
-          }
+          onClick={() => setOpenSide((prev) => (prev === "groom" ? null : "groom"))}
         />
-
         {openSide === "groom" && (
           <div className="pb-6">
             <div className="space-y-4">
@@ -89,11 +83,8 @@ export default function AccountSection({ accounts }: Props) {
         <AccordionHeader
           title="신부측 계좌번호"
           isOpen={openSide === "bride"}
-          onClick={() =>
-            setOpenSide((prev) => (prev === "bride" ? null : "bride"))
-          }
+          onClick={() => setOpenSide((prev) => (prev === "bride" ? null : "bride"))}
         />
-
         {openSide === "bride" && (
           <div className="pb-6">
             <div className="space-y-4">
@@ -135,13 +126,9 @@ function AccordionHeader({
       className="flex w-full items-center justify-between py-6 text-left"
     >
       <span className="text-[20px] font-semibold text-gray-900">{title}</span>
-
       <ChevronDown
         size={26}
-        className={[
-          "text-gray-400 transition-transform duration-200",
-          isOpen ? "rotate-180" : "",
-        ].join(" ")}
+        className={["text-gray-400 transition-transform duration-200", isOpen ? "rotate-180" : ""].join(" ")}
       />
     </button>
   )
@@ -159,14 +146,11 @@ function AccountCard({
   return (
     <div className="flex items-center justify-between rounded-[18px] bg-gray-50 px-6 py-5">
       <div className="min-w-0">
-        <p className="mb-2 text-[18px] font-semibold text-gray-900">
-          {account.label}
-        </p>
+        <p className="mb-2 text-[18px] font-semibold text-gray-900">{account.label}</p>
         <p className="truncate text-[16px] text-gray-600">
           {account.bank} (예금주 : {account.holder}) {account.accountNumber}
         </p>
       </div>
-
       <button
         type="button"
         onClick={onCopy}
