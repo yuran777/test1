@@ -39,7 +39,7 @@ export default function RsvpSection({
   };
 
   const handleOpen = () => {
-    setStep("intro");
+    setStep("form");
     setSubmitted(false);
     setShowPopup(true);
   };
@@ -113,13 +113,13 @@ export default function RsvpSection({
       {/* 팝업 오버레이 */}
       {showPopup && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center p-0"
           style={{ backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
           onClick={handleClose}
         >
           <div
             className="relative overflow-y-auto rounded-xl bg-white"
-            style={{ width: "90vw", maxWidth: 560, maxHeight: "90vh" }}
+            style={{ width: "65%", maxWidth: 420, maxHeight: "80vh", margin: "0 auto" }}
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -176,14 +176,14 @@ export default function RsvpSection({
             {step === "form" && !submitted && (
               <div className="pb-6">
                 <div className="border-b border-gray-100 px-6 py-5">
-                  <h2 className="text-base font-light tracking-widest text-gray-800">
+                  <h2 className="text-base font-medium tracking-widest text-gray-900">
                     참석의사 전달하기
                   </h2>
                 </div>
 
                 {/* 구분 */}
                 <div className="flex items-center gap-4 border-b border-gray-50 px-6 py-4">
-                  <label className="w-16 text-sm text-gray-600">구분</label>
+                  <label className="w-16 text-sm font-medium text-gray-900">구분</label>
                   <div className="flex flex-1 overflow-hidden rounded-md border border-gray-200">
                     {(["groom", "bride"] as Side[]).map((s) => (
                       <button
@@ -192,7 +192,7 @@ export default function RsvpSection({
                         className={`flex-1 py-2.5 text-sm transition ${
                           side === s
                             ? "bg-gray-700 text-white"
-                            : "bg-gray-50 text-gray-500 hover:bg-gray-100"
+                            : "bg-gray-50 text-gray-800 hover:bg-gray-100"
                         }`}
                       >
                         {s === "groom" ? "신랑" : "신부"}
@@ -203,46 +203,46 @@ export default function RsvpSection({
 
                 {/* 성함 */}
                 <div className="flex items-center gap-4 border-b border-gray-50 px-6 py-4">
-                  <label className="w-16 text-sm text-gray-600">성함</label>
+                  <label className="w-16 text-sm font-medium text-gray-900">성함</label>
                   <input
                     type="text"
                     placeholder="참석자 성함"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="flex-1 rounded-md border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-gray-700"
+                    className="flex-1 rounded-md border border-gray-200 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-700"
                   />
                 </div>
 
                 {/* 전화번호 */}
                 <div className="flex items-center gap-4 border-b border-gray-50 px-6 py-4">
-                  <label className="w-16 text-sm text-gray-600">전화번호</label>
+                  <label className="w-16 text-sm font-medium text-gray-900">전화번호</label>
                   <input
                     type="text"
                     placeholder="끝 4자리"
                     value={phoneLast4}
                     onChange={(e) => setPhoneLast4(e.target.value.replace(/\D/g, "").slice(0, 4))}
                     maxLength={4}
-                    className="flex-1 rounded-md border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-gray-700"
+                    className="flex-1 rounded-md border border-gray-200 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-700"
                   />
                 </div>
 
                 {/* 메모 */}
                 <div className="flex items-center gap-4 border-b border-gray-50 px-6 py-4">
-                  <label className="w-16 text-sm text-gray-600">메모</label>
+                  <label className="w-16 text-sm font-medium text-gray-900">메모</label>
                   <input
                     type="text"
                     value={memo}
                     onChange={(e) => setMemo(e.target.value)}
-                    className="flex-1 rounded-md border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-gray-700"
+                    className="flex-1 rounded-md border border-gray-200 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-700"
                   />
                 </div>
 
                 {/* 식사 */}
                 <div className="flex items-center gap-4 border-b border-gray-50 px-6 py-4">
-                  <label className="w-16 text-sm text-gray-600">식사</label>
+                  <label className="w-16 text-sm font-medium text-gray-900">식사</label>
                   <div className="flex gap-5">
                     {([["yes", "예정"], ["no", "불참"], ["unknown", "미정"]] as [Meal, string][]).map(([v, l]) => (
-                      <label key={v} className="flex cursor-pointer items-center gap-1.5 text-sm text-gray-600">
+                      <label key={v} className="flex cursor-pointer items-center gap-1.5 text-sm text-gray-900">
                         <input
                           type="radio"
                           name="meal"
@@ -258,11 +258,11 @@ export default function RsvpSection({
 
                 {/* 참석인원 */}
                 <div className="flex items-center gap-4 border-b border-gray-50 px-6 py-4">
-                  <label className="w-16 text-sm text-gray-600">참석인원</label>
+                  <label className="w-16 text-sm font-medium text-gray-900">참석인원</label>
                   <select
                     value={guestCount}
                     onChange={(e) => setGuestCount(Number(e.target.value))}
-                    className="flex-1 rounded-md border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-gray-700"
+                    className="flex-1 rounded-md border border-gray-200 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-700"
                   >
                     {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
                       <option key={n} value={n}>
@@ -272,7 +272,7 @@ export default function RsvpSection({
                   </select>
                 </div>
 
-                <div className="px-6 pt-5">
+                <div className="px-6 pt-2">
                   <button
                     onClick={handleSubmit}
                     disabled={loading}
