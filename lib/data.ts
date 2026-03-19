@@ -25,13 +25,13 @@ export const invitationData: Invitation = {
 
 
   gallery: [
-    { id: "1", imageUrl: "/gallery/1.jpg", thumbUrl: "/gallery/1.jpg" },
-    { id: "2", imageUrl: "/gallery/2.jpg", thumbUrl: "/gallery/2.jpg" },
-    { id: "3", imageUrl: "/gallery/3.jpg", thumbUrl: "/gallery/3.jpg" },
-    { id: "4", imageUrl: "/gallery/4.jpg", thumbUrl: "/gallery/4.jpg" },
-    { id: "5", imageUrl: "/gallery/5.jpg", thumbUrl: "/gallery/5.jpg" },
-    { id: "6", imageUrl: "/gallery/6.jpg", thumbUrl: "/gallery/6.jpg" },
-    { id: "7", imageUrl: "/gallery/7.jpg", thumbUrl: "/gallery/7.jpg" },
+    { id: "1", imageUrl: "/gallery/1.jpeg", thumbUrl: "/gallery/1.jpeg" },
+    { id: "2", imageUrl: "/gallery/2.jpeg", thumbUrl: "/gallery/2.jpeg" },
+    { id: "3", imageUrl: "/gallery/3.jpeg", thumbUrl: "/gallery/3.jpeg" },
+    { id: "4", imageUrl: "/gallery/4.jpeg", thumbUrl: "/gallery/4.jpeg" },
+    { id: "5", imageUrl: "/gallery/5.jpeg", thumbUrl: "/gallery/5.jpeg" },
+    { id: "6", imageUrl: "/gallery/6.jpeg", thumbUrl: "/gallery/6.jpeg" },
+    { id: "7", imageUrl: "/gallery/7.jpeg", thumbUrl: "/gallery/7.jpeg" },
     { id: "8", imageUrl: "/gallery/8.jpg", thumbUrl: "/gallery/8.jpg" },
     { id: "9", imageUrl: "/gallery/9.jpg", thumbUrl: "/gallery/9.jpg" },
     { id: "10", imageUrl: "/gallery/10.jpg", thumbUrl: "/gallery/10.jpg" },

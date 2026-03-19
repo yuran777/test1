@@ -72,7 +72,7 @@ export default function InvitationPageClient({ slug }: Props) { // ← slug 받�
         {/* 메인 섹션 */}
         <section className="relative flex min-h-screen items-center justify-center overflow-hidden text-center">
           <img
-            src={data.gallery?.[0]?.imageUrl || "/gallery/main-visual.jpg"}
+            src={data.gallery?.[0]?.imageUrl || "/gallery/main-visual.jpeg"}
             alt="청첩장 메인 이미지"
             className="absolute inset-0 h-full w-full object-cover"
           />
