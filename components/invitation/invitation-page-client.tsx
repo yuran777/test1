@@ -203,16 +203,6 @@ export default function InvitationPageClient({ slug }: Props) { // ← slug 받�
           <GuestbookSection slug={data.slug} />
         </RevealSection>
 
-        {/* RSVP */}
-        <RevealSection>
-          <RsvpSection
-            slug={slug}
-            groomName={data.groomName}
-            brideName={data.brideName}
-            weddingDate={`${data.weddingDateText} ${data.venueHall}`}
-            weddingVenue={`${data.venueName} ${data.venueHall}`}
-          />
-        </RevealSection>
 
         {/* 공유 */}
         <RevealSection>

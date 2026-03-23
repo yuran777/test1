@@ -48,8 +48,8 @@ export default function ContactModal({ open, onClose }: Props) {
             <div className="mb-5 border-b border-white/40" />
 
             <ContactItem label="신랑" name="박성우" phone="01022431839" />
-            <ContactItem label="신랑 아버지" name="ㅇㅇㅇ" phone="01000000000" />
-            <ContactItem label="신랑 어머니" name="ㅇㅇㅇ" phone="01000000000" />
+            <ContactItem label="신랑 아버지" name="박희진" phone="01085541839" />
+            <ContactItem label="신랑 어머니" name="김경희" phone="01090019839" />
           </section>
 
           {/* 신부측 */}
