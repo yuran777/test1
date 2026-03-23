@@ -9,13 +9,12 @@ import AccountSection from "@/components/invitation/account-section";
 import RevealSection from "@/components/invitation/reveal-section";
 import ShareSection from "@/components/invitation/share-section";
 import GuestbookSection from "@/components/invitation/guestbook-section";
-import RsvpSection from "@/components/invitation/RsvpSection"; // ← 추가
 
 interface Props {
-  slug: string; // ← 추가
+  slug: string;
 }
 
-export default function InvitationPageClient({ slug }: Props) { // ← slug 받기
+export default function InvitationPageClient({ slug }: Props) {
   const data = invitationData;
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [contactOpen, setContactOpen] = useState(false);
@@ -202,7 +201,6 @@ export default function InvitationPageClient({ slug }: Props) { // ← slug 받�
         <RevealSection>
           <GuestbookSection slug={data.slug} />
         </RevealSection>
-
 
         {/* 공유 */}
         <RevealSection>
