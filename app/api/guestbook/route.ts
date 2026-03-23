@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase-admin";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
 export async function GET(request: Request) {
   try {
@@ -13,6 +13,7 @@ export async function GET(request: Request) {
       );
     }
 
+    const supabaseAdmin = getSupabaseAdmin();
     const { data, error } = await supabaseAdmin
       .from("guestbooks")
       .select("*")
@@ -64,6 +65,7 @@ export async function POST(request: Request) {
       );
     }
 
+    const supabaseAdmin = getSupabaseAdmin();
     const { data, error } = await supabaseAdmin
       .from("guestbooks")
       .insert({
@@ -102,6 +104,7 @@ export async function PATCH(request: Request) {
       );
     }
 
+    const supabaseAdmin = getSupabaseAdmin();
     const { data, error } = await supabaseAdmin.rpc(
       "increment_guestbook_like",
       {
@@ -148,6 +151,7 @@ export async function DELETE(request: Request) {
       );
     }
 
+    const supabaseAdmin = getSupabaseAdmin();
     const { data, error } = await supabaseAdmin
       .from("guestbooks")
       .delete()

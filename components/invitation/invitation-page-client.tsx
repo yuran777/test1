@@ -117,7 +117,7 @@ export default function InvitationPageClient({ slug }: Props) { // ← slug 받�
         <RevealSection delay={150}>
           <section className="space-y-3 px-6 text-center text-sm text-gray-600 md:text-base">
             <p>
-              ㅇㅇㅇ · ㅇㅇㅇ 의 아들
+              박희진 · 김경희 의 아들
               <strong className="ml-2 text-gray-900">성우</strong>
             </p>
             <p>
