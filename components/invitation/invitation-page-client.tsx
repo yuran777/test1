@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { invitationData } from "@/lib/data";
 import GalleryModal from "@/components/invitation/gallery-modal";
 import ContactModal from "@/components/invitation/contact-modal";
@@ -70,10 +71,16 @@ export default function InvitationPageClient({ slug }: Props) {
       <main className="mx-auto min-h-screen w-full max-w-[720px] bg-white shadow-lg">
         {/* 메인 섹션 */}
         <section className="relative flex min-h-screen items-center justify-center overflow-hidden text-center">
-          <img
-            src={data.gallery?.[0]?.imageUrl || "/gallery/main-visual.jpeg"}
+          {/* ✅ priority 추가 → 첫 화면 이미지 즉시 로딩 (LCP 개선) */}
+          {/* ✅ <img> → <Image> 교체 → Vercel 자동 WebP 변환 + 리사이징 */}
+          {/* ✅ mainImageUrl 우선 사용, 없으면 갤러리 첫 번째 이미지로 폴백 */}
+          <Image
+            src={data.mainImageUrl ?? data.gallery?.[0]?.imageUrl ?? "/gallery/main-visual.jpeg"}
             alt="청첩장 메인 이미지"
-            className="absolute inset-0 h-full w-full object-cover"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-black/35" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/25 to-black/50" />
@@ -173,13 +180,21 @@ export default function InvitationPageClient({ slug }: Props) {
                   (item) => item.id === img.id
                 );
                 return (
-                  <img
+                  // ✅ <img> → <Image> 교체 → 썸네일 크기(400px)로 자동 리사이징 + WebP 변환
+                  // ✅ loading="lazy" 기본 적용됨 (priority 없으면 자동 lazy)
+                  <div
                     key={img.id}
-                    src={img.imageUrl}
-                    alt={`갤러리 이미지 ${img.id}`}
-                    className="cursor-pointer rounded-lg transition-transform duration-300 hover:scale-[1.03]"
+                    className="relative aspect-square cursor-pointer overflow-hidden rounded-lg"
                     onClick={() => setSelectedImageIndex(originalIndex)}
-                  />
+                  >
+                    <Image
+                      src={img.imageUrl}
+                      alt={`갤러리 이미지 ${img.id}`}
+                      fill
+                      className="object-cover transition-transform duration-300 hover:scale-[1.03]"
+                      sizes="(max-width: 768px) 33vw, 25vw"
+                    />
+                  </div>
                 );
               })}
             </div>

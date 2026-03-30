@@ -20,6 +20,7 @@ export type Contact = {
 
 export type Invitation = {
   slug: string
+  mainImageUrl?: string  // 👈 추가: data.ts에서 메인 이미지 경로 지정
   groomName: string
   brideName: string
   weddingDate: string
