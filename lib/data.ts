@@ -9,6 +9,7 @@ export const invitationData: Invitation = {
   venueName: "셀럽앤어셈",
   venueHall: "디아이 올라 홀(2층)",
   venueAddress: "서울 강남구 언주로 711 건설회관 2층",
+  mainImageUrl: "/gallery/1.jpeg", // 👈 여기서 메인 이미지 파일명만 바꾸면 됩니다
   message: `저희 두 사람이 하나가 되어
 첫 발걸음을 내딛는 시작,
 시간이 흘러도 이날을 기억하며
