@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Pagination } from "swiper/modules"
 import "swiper/css"
@@ -47,11 +48,14 @@ export default function GalleryModal({
         >
           {images.map((image, index) => (
             <SwiperSlide key={index}>
-              <div className="flex items-center justify-center">
-                <img
+              {/* ✅ <img> → <Image> 교체 → 모달 원본은 고화질 필요하므로 sizes를 넓게 설정 */}
+              <div className="relative flex items-center justify-center" style={{ height: "88vh" }}>
+                <Image
                   src={image}
                   alt={`갤러리 이미지 ${index + 1}`}
-                  className="max-h-[88vh] max-w-[90vw] rounded-xl object-contain"
+                  fill
+                  className="object-contain rounded-xl"
+                  sizes="90vw"
                 />
               </div>
             </SwiperSlide>

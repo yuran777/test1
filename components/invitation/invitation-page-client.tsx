@@ -133,6 +133,20 @@ export default function InvitationPageClient({ slug }: Props) {
           </section>
         </RevealSection>
 
+        <RevealSection delay={175}>
+          <section className="px-6 pt-8 md:px-10">
+            <div className="relative w-full overflow-hidden rounded-2xl" style={{ aspectRatio: "3/4" }}>
+              <Image
+                src="/gallery/13.jpg"
+                alt="웨딩 사진"
+                fill
+                className="object-cover"
+                sizes="(max-width: 720px) 100vw, 720px"
+              />
+            </div>
+          </section>
+        </RevealSection>
+
         <RevealSection delay={200}>
           <section className="py-10 text-center">
             <button
