@@ -71,7 +71,7 @@ export const invitationData: Invitation = {
       side: "bride",
       label: "신부 아버지 김용호",
       bank: "국민은행",
-      accountNumber: "123-45-6789012",
+      accountNumber: "1233-45-6789012",
       holder: "김용호",
     },
     {
