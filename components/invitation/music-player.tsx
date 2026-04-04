@@ -1,6 +1,6 @@
 "use client"
 
-import { Pause, Play, Volume2 } from "lucide-react"
+import { Pause, Play, Volume2, VolumeX } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
 type Props = {
@@ -10,42 +10,38 @@ type Props = {
 export default function MusicPlayer({ src }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [playing, setPlaying] = useState(false)
-  const [showOverlay, setShowOverlay] = useState(true)
+  const [muted, setMuted] = useState(true) // 처음엔 음소거로 시작
 
-  // 페이지 로드 시 자동재생 시도
+  // 페이지 로드 시 음소거 상태로 자동재생 (모든 브라우저 허용)
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
 
-    const tryAutoPlay = async () => {
-      try {
-        await audio.play()
-        setPlaying(true)
-        setShowOverlay(false) // 자동재생 성공 시 오버레이 숨김
-      } catch {
-        // 브라우저 정책으로 자동재생 차단됨 → 오버레이 표시 유지
-        setShowOverlay(true)
-      }
-    }
-
-    tryAutoPlay()
+    audio.muted = true
+    audio.play()
+      .then(() => setPlaying(true))
+      .catch(() => {
+        // 음소거여도 차단되는 경우 (드물게 발생)
+        setPlaying(false)
+      })
   }, [])
 
-  // 오버레이 터치/클릭 시 음악 재생 시작
-  const handleOverlayClick = async () => {
+  // 음소거 토글 (소리 켜기/끄기)
+  const toggleMute = () => {
     const audio = audioRef.current
     if (!audio) return
 
-    try {
-      await audio.play()
-      setPlaying(true)
-    } catch (error) {
-      console.error("오디오 재생 실패", error)
+    if (muted) {
+      audio.muted = false
+      setMuted(false)
+    } else {
+      audio.muted = true
+      setMuted(true)
     }
-    setShowOverlay(false)
   }
 
-  const toggleMusic = async () => {
+  // 재생/정지 토글
+  const togglePlay = async () => {
     const audio = audioRef.current
     if (!audio) return
 
@@ -66,42 +62,43 @@ export default function MusicPlayer({ src }: Props) {
     <>
       <audio ref={audioRef} src={src} loop preload="auto" />
 
-      {/* 시작 오버레이 - 화면 전체를 터치하면 음악 재생 */}
-      {showOverlay && (
+      {/* 소리 켜기 안내 배너 (음소거 상태이고 재생 중일 때만 표시) */}
+      {playing && muted && (
         <div
-          onClick={handleOverlayClick}
-          className="fixed inset-0 z-[100] flex cursor-pointer flex-col items-center justify-center bg-[#f8f3ee]/95 backdrop-blur-sm"
+          onClick={toggleMute}
+          className="fixed left-1/2 top-4 z-50 -translate-x-1/2 cursor-pointer rounded-full bg-black/60 px-5 py-2 text-xs text-white backdrop-blur transition hover:bg-black/75"
         >
-          <div className="flex flex-col items-center gap-6 text-center">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full border border-neutral-300 bg-white shadow-lg">
-              <Volume2 className="h-8 w-8 text-neutral-500" />
-            </div>
-            <div className="space-y-2">
-              <p className="text-base font-medium tracking-widest text-neutral-700">
-                화면을 터치하여 시작하기
-              </p>
-              <p className="text-xs tracking-[0.2em] text-neutral-400">
-                TAP TO BEGIN
-              </p>
-            </div>
-            <div className="animate-pulse text-neutral-300">
-              <div className="h-px w-16 bg-neutral-300 mx-auto" />
-            </div>
-          </div>
+          🎵 터치하여 소리 켜기
         </div>
       )}
 
-      {/* 음악 재생/정지 버튼 */}
-      <button
-        type="button"
-        onClick={toggleMusic}
-        className="fixed right-4 top-4 z-50 flex items-center gap-2 rounded-full bg-white/85 px-4 py-2 text-sm shadow-md backdrop-blur"
-        aria-label="배경음악 재생 버튼"
-      >
-        <Volume2 className="h-4 w-4" />
-        {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-        <span>{playing ? "음악 끄기" : "음악 재생"}</span>
-      </button>
+      {/* 재생/정지 + 음소거 버튼 */}
+      <div className="fixed right-4 top-4 z-50 flex items-center gap-2">
+        <button
+          type="button"
+          onClick={toggleMute}
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/85 shadow-md backdrop-blur"
+          aria-label={muted ? "소리 켜기" : "소리 끄기"}
+        >
+          {muted ? (
+            <VolumeX className="h-4 w-4 text-gray-600" />
+          ) : (
+            <Volume2 className="h-4 w-4 text-gray-600" />
+          )}
+        </button>
+        <button
+          type="button"
+          onClick={togglePlay}
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/85 shadow-md backdrop-blur"
+          aria-label={playing ? "음악 정지" : "음악 재생"}
+        >
+          {playing ? (
+            <Pause className="h-4 w-4 text-gray-600" />
+          ) : (
+            <Play className="h-4 w-4 text-gray-600" />
+          )}
+        </button>
+      </div>
     </>
   )
 }

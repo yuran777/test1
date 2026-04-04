@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "성우 · 유란 결혼합니다",
-    description: "2025.11.23 웨딩홀 결혼식에 초대합니다.",
+    description: "2026.7.12 결혼식에 초대합니다.",
     images: ["https://test1-peach-six.vercel.app/thumnail.jpeg"],
   },
 };

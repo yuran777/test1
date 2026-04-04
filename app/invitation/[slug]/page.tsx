@@ -46,5 +46,5 @@ export default async function Page({ params }: Props) {
     return <div className="p-10 text-center">존재하지 않는 청첩장입니다.</div>;
   }
 
-  return <InvitationPageClient slug={slug} />;  // ← slug 추가
+  return <InvitationPageClient />;
 }

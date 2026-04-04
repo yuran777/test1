@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { invitationData } from "@/lib/data";
 import GalleryModal from "@/components/invitation/gallery-modal";
@@ -10,19 +10,14 @@ import AccountSection from "@/components/invitation/account-section";
 import RevealSection from "@/components/invitation/reveal-section";
 import ShareSection from "@/components/invitation/share-section";
 import GuestbookSection from "@/components/invitation/guestbook-section";
+import MusicPlayer from "@/components/invitation/music-player";
 
-interface Props {
-  slug: string;
-}
-
-export default function InvitationPageClient({ slug }: Props) {
+export default function InvitationPageClient() {
   const data = invitationData;
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [contactOpen, setContactOpen] = useState(false);
   const [showAllGallery, setShowAllGallery] = useState(false);
   const [introStep, setIntroStep] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const visibleGallery = showAllGallery ? data.gallery : data.gallery.slice(0, 9);
 
   useEffect(() => {
@@ -41,32 +36,9 @@ export default function InvitationPageClient({ slug }: Props) {
       visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
     }`;
 
-  const toggleMusic = async () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    try {
-      if (audio.paused) {
-        await audio.play();
-        setIsPlaying(true);
-      } else {
-        audio.pause();
-        setIsPlaying(false);
-      }
-    } catch (error) {
-      console.error("배경음악 재생 실패:", error);
-    }
-  };
-
   return (
     <>
-      <audio ref={audioRef} src="/music/wedding-bgm.mp3" loop preload="auto" />
-      <button
-        type="button"
-        onClick={toggleMusic}
-        className="fixed right-4 top-4 z-50 rounded-full bg-black/45 px-4 py-2 text-sm font-medium text-white shadow-md backdrop-blur transition hover:scale-105"
-      >
-        {isPlaying ? "🎵 음악 끄기" : "🎵 음악 재생"}
-      </button>
+      <MusicPlayer src="/music/wedding-bgm.mp3" />
 
       <main className="mx-auto min-h-screen w-full max-w-[720px] bg-white shadow-lg">
         {/* 메인 섹션 */}

@@ -107,5 +107,4 @@ export const invitationData: Invitation = {
 최대 600대 수용`,
     ],
   },
-  accountNumber: "",
 }

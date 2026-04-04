@@ -31,7 +31,6 @@ export type Invitation = {
   message: string
   gallery: GalleryImage[]
   accounts: Account[]
-  accountNumber: string
   contacts: Contact[]
   mapLinks: {
     kakao: string
