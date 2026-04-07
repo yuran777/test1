@@ -72,7 +72,7 @@ function InfoBlock({ title, items }: { title: string; items: string[] }) {
       <p className="mb-2 text-sm font-semibold text-gray-900">{title}</p>
       <div className="space-y-1">
         {items.map((item, index) => (
-          <p key={index} className="text-sm leading-6 text-gray-600">{item}</p>
+          <p key={index} className="whitespace-pre-line text-sm leading-6 text-gray-600">{item}</p>
         ))}
       </div>
     </div>
