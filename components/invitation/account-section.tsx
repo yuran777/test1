@@ -145,11 +145,10 @@ function AccountCard({
 }) {
   return (
     <div className="flex items-center justify-between rounded-[18px] bg-gray-50 px-6 py-5">
-      <div className="min-w-0">
-        <p className="mb-2 text-[18px] font-semibold text-gray-900">{account.label}</p>
-        <p className="truncate text-[16px] text-gray-600">
-          {account.bank} (예금주 : {account.holder}) {account.accountNumber}
-        </p>
+      <div className="min-w-0 flex-1">
+        <p className="mb-1 text-[17px] font-semibold text-gray-900">{account.label}</p>
+        <p className="text-[14px] text-gray-500">{account.bank} · 예금주 {account.holder}</p>
+        <p className="mt-1 text-[15px] font-medium tracking-wide text-gray-700">{account.accountNumber}</p>
       </div>
       <button
         type="button"
