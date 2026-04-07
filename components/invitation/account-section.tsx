@@ -148,7 +148,7 @@ function AccountCard({
       <div className="min-w-0 flex-1">
         <p className="mb-1 text-[17px] font-semibold text-gray-900">{account.label}</p>
         <p className="text-[14px] text-gray-500">{account.bank} · 예금주 {account.holder}</p>
-        <p className="mt-1 text-[15px] font-medium tracking-wide text-gray-700">{account.accountNumber}</p>
+        <p className="mt-1 break-all text-[15px] font-medium text-gray-700">{account.accountNumber}</p>
       </div>
       <button
         type="button"
