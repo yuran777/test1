@@ -18,7 +18,7 @@ export default function InvitationPageClient() {
   const [contactOpen, setContactOpen] = useState(false);
   const [showAllGallery, setShowAllGallery] = useState(false);
   const [introStep, setIntroStep] = useState(0);
-  const visibleGallery = showAllGallery ? data.gallery : data.gallery.slice(0, 9);
+  const visibleGallery = showAllGallery ? data.gallery : data.gallery.slice(0, 15);
 
   useEffect(() => {
     const timers = [
@@ -184,7 +184,7 @@ export default function InvitationPageClient() {
                 );
               })}
             </div>
-            {data.gallery.length > 9 && !showAllGallery && (
+            {data.gallery.length > 15 && !showAllGallery && (
               <div className="mt-6 text-center">
                 <button
                   type="button"
