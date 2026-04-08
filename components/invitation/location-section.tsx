@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 
 const KAKAO_APP_KEY = "31fac3c9801dcec88238a79ed411f604"
-const VENUE_ADDRESS = "서울특별시 강남구 언주로 711"
+const VENUE_ADDRESS = "서울 강남구 언주로 711 건설회관 별관 1,2층"
 
 type Props = {
   venueName: string
