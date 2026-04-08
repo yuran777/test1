@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 type Props = {
   venueName: string
@@ -28,7 +28,46 @@ export default function LocationSection({
 }: Props) {
   const [activeTab, setActiveTab] = useState<"지도" | "약도">("지도")
 
-return (
+  useEffect(() => {
+    const scriptSrc = "https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"
+
+    const waitAndRender = () => {
+      let attempts = 0
+      const check = () => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const w = window as any
+        if (w.daum?.roughmap?.Lander) {
+          try {
+            new w.daum.roughmap.Lander({
+              timestamp: "1775657741606",
+              key: "29wnr3bo87ac",
+              mapWidth: "380",
+              mapHeight: "360",
+            }).render()
+          } catch (e) {
+            console.warn("roughmap render error:", e)
+          }
+        } else if (attempts < 20) {
+          attempts++
+          setTimeout(check, 200)
+        }
+      }
+      check()
+    }
+
+    const existingScript = document.querySelector(`script[src="${scriptSrc}"]`)
+    if (!existingScript) {
+      const script = document.createElement("script")
+      script.charset = "UTF-8"
+      script.src = scriptSrc
+      script.onload = waitAndRender
+      document.body.appendChild(script)
+    } else {
+      waitAndRender()
+    }
+  }, [])
+
+  return (
     <section className="px-6 py-12 md:px-10">
 
       {/* 통일된 타이틀 */}
@@ -59,14 +98,15 @@ return (
 
       {/* 지도 / 약도 콘텐츠 */}
       <div className="overflow-hidden rounded-b-[22px] border border-gray-200 bg-white">
-        {activeTab === "지도" ? (
-          <iframe
-            src="https://kko.to/oWlCLpccea"
-            className="h-[360px] w-full border-0"
-            title="카카오지도"
-            allowFullScreen
+        {/* roughmap 컨테이너: display:none 방지를 위해 height:0으로 숨김 */}
+        <div style={activeTab === "지도" ? {} : { height: 0, overflow: "hidden" }}>
+          <div
+            id="daumRoughmapContainer1775657741606"
+            className="root_daum_roughmap root_daum_roughmap_landing w-full"
+            style={{ minHeight: "360px" }}
           />
-        ) : (
+        </div>
+        {activeTab === "약도" && (
           <img src="/location-map.jpeg" alt="예식장 약도" className="w-full object-cover" />
         )}
       </div>
