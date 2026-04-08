@@ -3,9 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 
 const KAKAO_APP_KEY = "31fac3c9801dcec88238a79ed411f604"
-// 셀럽앤어셈 (서울 강남구 언주로 711 건설회관) 좌표
-const VENUE_LAT = 37.5152
-const VENUE_LNG = 127.0413
+const VENUE_ADDRESS = "서울특별시 강남구 언주로 711"
 
 type Props = {
   venueName: string
@@ -36,7 +34,8 @@ export default function LocationSection({
   const mapInstanceRef = useRef<any>(null)
 
   useEffect(() => {
-    const scriptSrc = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_APP_KEY}&autoload=false`
+    // services 라이브러리 포함 (Geocoder 사용)
+    const scriptSrc = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_APP_KEY}&libraries=services&autoload=false`
 
     const initMap = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,23 +44,35 @@ export default function LocationSection({
         const container = document.getElementById("kakao-map-container")
         if (!container) return
 
-        const coords = new w.kakao.maps.LatLng(VENUE_LAT, VENUE_LNG)
-        const map = new w.kakao.maps.Map(container, { center: coords, level: 4 })
+        // 임시 중심으로 지도 먼저 생성
+        const map = new w.kakao.maps.Map(container, {
+          center: new w.kakao.maps.LatLng(37.5, 127.0),
+          level: 4,
+        })
         mapInstanceRef.current = map
 
-        const marker = new w.kakao.maps.Marker({ position: coords })
-        marker.setMap(map)
+        // 주소 → 좌표 변환
+        const geocoder = new w.kakao.maps.services.Geocoder()
+        geocoder.addressSearch(VENUE_ADDRESS, (result: any[], status: string) => {
+          if (status === w.kakao.maps.services.Status.OK) {
+            const coords = new w.kakao.maps.LatLng(result[0].y, result[0].x)
+            map.setCenter(coords)
 
-        const infowindow = new w.kakao.maps.InfoWindow({
-          content: `<div style="padding:5px 10px;font-size:12px;font-weight:bold;white-space:nowrap;">${venueName}</div>`,
+            const marker = new w.kakao.maps.Marker({ position: coords })
+            marker.setMap(map)
+
+            const infowindow = new w.kakao.maps.InfoWindow({
+              content: `<div style="padding:5px 10px;font-size:12px;font-weight:bold;white-space:nowrap;">${venueName}</div>`,
+            })
+            infowindow.open(map, marker)
+          }
         })
-        infowindow.open(map, marker)
       })
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const w = window as any
-    if (w.kakao?.maps) {
+    if (w.kakao?.maps?.services) {
       initMap()
     } else if (!document.querySelector(`script[src*="dapi.kakao.com/v2/maps"]`)) {
       const script = document.createElement("script")
