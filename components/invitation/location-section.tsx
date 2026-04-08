@@ -1,6 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+
+const KAKAO_APP_KEY = "31fac3c9801dcec88238a79ed411f604"
+// 셀럽앤어셈 (서울 강남구 언주로 711 건설회관) 좌표
+const VENUE_LAT = 37.5152
+const VENUE_LNG = 127.0413
 
 type Props = {
   venueName: string
@@ -27,45 +32,54 @@ export default function LocationSection({
   locationInfo,
 }: Props) {
   const [activeTab, setActiveTab] = useState<"지도" | "약도">("지도")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mapInstanceRef = useRef<any>(null)
 
   useEffect(() => {
-    const scriptSrc = "https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"
+    const scriptSrc = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_APP_KEY}&autoload=false`
 
-    const waitAndRender = () => {
-      let attempts = 0
-      const check = () => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const w = window as any
-        if (w.daum?.roughmap?.Lander) {
-          try {
-            new w.daum.roughmap.Lander({
-              timestamp: "1775657741606",
-              key: "29wnr3bo87ac",
-              mapWidth: "380",
-              mapHeight: "360",
-            }).render()
-          } catch (e) {
-            console.warn("roughmap render error:", e)
-          }
-        } else if (attempts < 20) {
-          attempts++
-          setTimeout(check, 200)
-        }
-      }
-      check()
+    const initMap = () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const w = window as any
+      w.kakao.maps.load(() => {
+        const container = document.getElementById("kakao-map-container")
+        if (!container) return
+
+        const coords = new w.kakao.maps.LatLng(VENUE_LAT, VENUE_LNG)
+        const map = new w.kakao.maps.Map(container, { center: coords, level: 4 })
+        mapInstanceRef.current = map
+
+        const marker = new w.kakao.maps.Marker({ position: coords })
+        marker.setMap(map)
+
+        const infowindow = new w.kakao.maps.InfoWindow({
+          content: `<div style="padding:5px 10px;font-size:12px;font-weight:bold;white-space:nowrap;">${venueName}</div>`,
+        })
+        infowindow.open(map, marker)
+      })
     }
 
-    const existingScript = document.querySelector(`script[src="${scriptSrc}"]`)
-    if (!existingScript) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const w = window as any
+    if (w.kakao?.maps) {
+      initMap()
+    } else if (!document.querySelector(`script[src*="dapi.kakao.com/v2/maps"]`)) {
       const script = document.createElement("script")
-      script.charset = "UTF-8"
       script.src = scriptSrc
-      script.onload = waitAndRender
-      document.body.appendChild(script)
+      script.onload = initMap
+      document.head.appendChild(script)
     } else {
-      waitAndRender()
+      document.querySelector(`script[src*="dapi.kakao.com/v2/maps"]`)
+        ?.addEventListener("load", initMap)
     }
-  }, [])
+  }, [venueName])
+
+  // 지도 탭으로 돌아올 때 레이아웃 재계산
+  useEffect(() => {
+    if (activeTab === "지도" && mapInstanceRef.current) {
+      setTimeout(() => mapInstanceRef.current.relayout(), 50)
+    }
+  }, [activeTab])
 
   return (
     <section className="px-6 py-12 md:px-10">
@@ -98,13 +112,9 @@ export default function LocationSection({
 
       {/* 지도 / 약도 콘텐츠 */}
       <div className="overflow-hidden rounded-b-[22px] border border-gray-200 bg-white">
-        {/* roughmap 컨테이너: display:none 방지를 위해 height:0으로 숨김 */}
+        {/* 카카오맵 JS API — height:0으로 숨겨 DOM 유지 */}
         <div style={activeTab === "지도" ? {} : { height: 0, overflow: "hidden" }}>
-          <div
-            id="daumRoughmapContainer1775657741606"
-            className="root_daum_roughmap root_daum_roughmap_landing w-full"
-            style={{ minHeight: "360px" }}
-          />
+          <div id="kakao-map-container" style={{ width: "100%", height: "360px" }} />
         </div>
         {activeTab === "약도" && (
           <img src="/location-map.jpeg" alt="예식장 약도" className="w-full object-cover" />
