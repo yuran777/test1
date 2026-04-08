@@ -61,7 +61,7 @@ export const invitationData: Invitation = {
       side: "groom",
       label: "신랑 어머니 김경희",
       bank: "국민은행",
-      accountNumber: "43340201011263",
+      accountNumber: "028240364297",
       holder: "김경희",
     },
     {
@@ -97,6 +97,7 @@ export const invitationData: Invitation = {
     kakao: "https://kko.to/SoyaOhgHA7",
     naver: "https://naver.me/xxY2U7vu",
     google: "https://maps.app.goo.gl/ZRiaEgNrCMwEctru5",
+    mapEmbed: "https://kko.to/jZsC2djv6f",
   },
   locationInfo: {
     subway: [

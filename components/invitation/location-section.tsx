@@ -1,3 +1,7 @@
+"use client"
+
+import { useEffect, useState } from "react"
+
 type Props = {
   venueName: string
   venueHall: string
@@ -6,6 +10,7 @@ type Props = {
     kakao: string
     naver: string
     google: string
+    mapEmbed: string
   }
   locationInfo: {
     subway: string[]
@@ -21,6 +26,36 @@ export default function LocationSection({
   mapLinks,
   locationInfo,
 }: Props) {
+  const [activeTab, setActiveTab] = useState<"지도" | "약도">("지도")
+
+  useEffect(() => {
+    const scriptSrc = "https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"
+
+    const initLander = () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const w = window as any
+      if (w.daum?.roughmap?.Lander) {
+        new w.daum.roughmap.Lander({
+          timestamp: "1775655556422",
+          key: "kd8bq4tsq4s",
+          mapWidth: "640",
+          mapHeight: "360",
+        }).render()
+      }
+    }
+
+    const existingScript = document.querySelector(`script[src="${scriptSrc}"]`)
+    if (!existingScript) {
+      const script = document.createElement("script")
+      script.charset = "UTF-8"
+      script.src = scriptSrc
+      script.onload = initLander
+      document.body.appendChild(script)
+    } else {
+      initLander()
+    }
+  }, [])
+
   return (
     <section className="px-6 py-12 md:px-10">
 
@@ -31,8 +66,38 @@ export default function LocationSection({
         <div className="mx-auto mt-3 h-px w-10 bg-gray-300" />
       </div>
 
-      <div className="overflow-hidden rounded-[22px] border border-gray-200 bg-white">
-        <img src="/location-map.jpeg" alt="예식장 약도" className="w-full object-cover" />
+      {/* 탭 */}
+      <div className="mb-0 grid grid-cols-2 overflow-hidden rounded-t-[22px] border border-b-0 border-gray-200">
+        {(["지도", "약도"] as const).map((tab) => (
+          <button
+            key={tab}
+            type="button"
+            onClick={() => setActiveTab(tab)}
+            className={[
+              "py-3 text-sm font-medium transition-colors",
+              activeTab === tab
+                ? "bg-white text-gray-900"
+                : "bg-gray-50 text-gray-400",
+            ].join(" ")}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      {/* 지도 / 약도 콘텐츠 */}
+      <div className="overflow-hidden rounded-b-[22px] border border-gray-200 bg-white">
+        {/* 지도: roughmap — 항상 DOM에 존재, 탭에 따라 표시/숨김 */}
+        <div className={activeTab === "지도" ? "block" : "hidden"}>
+          <div
+            id="daumRoughmapContainer1775655556422"
+            className="root_daum_roughmap root_daum_roughmap_landing w-full"
+          />
+        </div>
+        {/* 약도: 정적 이미지 */}
+        <div className={activeTab === "약도" ? "block" : "hidden"}>
+          <img src="/location-map.jpeg" alt="예식장 약도" className="w-full object-cover" />
+        </div>
       </div>
 
       <div className="mt-8 text-center">
@@ -42,6 +107,11 @@ export default function LocationSection({
       </div>
 
       <div className="mt-6 flex flex-wrap justify-center gap-2">
+        <a href="https://tmap.life/30664446" target="_blank" rel="noreferrer"
+          className="rounded-lg px-4 py-2 text-sm font-medium text-white"
+          style={{ backgroundColor: "#FF4081" }}>
+          티맵
+        </a>
         <a href={mapLinks.kakao} target="_blank" rel="noreferrer"
           className="rounded-lg px-4 py-2 text-sm font-medium text-black"
           style={{ backgroundColor: "#FAE100" }}>

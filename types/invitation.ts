@@ -36,6 +36,7 @@ export type Invitation = {
     kakao: string
     naver: string
     google: string
+    mapEmbed: string
   }
   locationInfo: {
     subway: string[]
