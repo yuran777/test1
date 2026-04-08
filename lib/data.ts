@@ -38,6 +38,9 @@ export const invitationData: Invitation = {
     { id: "19", imageUrl: "/gallery/19.jpg", thumbUrl: "/gallery/19.jpg" },
     { id: "20", imageUrl: "/gallery/20.jpg", thumbUrl: "/gallery/20.jpg" },
     { id: "21", imageUrl: "/gallery/21.jpg", thumbUrl: "/gallery/21.jpg" },
+    { id: "22", imageUrl: "/gallery/22.jpg", thumbUrl: "/gallery/22.jpg" },
+    { id: "23", imageUrl: "/gallery/23.jpg", thumbUrl: "/gallery/23.jpg" },
+    { id: "24", imageUrl: "/gallery/24.jpg", thumbUrl: "/gallery/24.jpg" },
   ],
   accounts: [
     {
