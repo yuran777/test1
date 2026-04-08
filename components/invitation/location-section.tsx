@@ -31,17 +31,29 @@ export default function LocationSection({
   useEffect(() => {
     const scriptSrc = "https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"
 
-    const initLander = () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const w = window as any
-      if (w.daum?.roughmap?.Lander) {
-        new w.daum.roughmap.Lander({
-          timestamp: "1775655556422",
-          key: "kd8bq4tsq4s",
-          mapWidth: "640",
-          mapHeight: "360",
-        }).render()
+    // Lander가 준비될 때까지 최대 4초 폴링
+    const waitAndRender = (maxAttempts = 20) => {
+      let attempts = 0
+      const check = () => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const w = window as any
+        if (w.daum?.roughmap?.Lander) {
+          try {
+            new w.daum.roughmap.Lander({
+              timestamp: "1775655556422",
+              key: "kd8bq4tsq4s",
+              mapWidth: "380",
+              mapHeight: "360",
+            }).render()
+          } catch (e) {
+            console.warn("roughmap render error:", e)
+          }
+        } else if (attempts < maxAttempts) {
+          attempts++
+          setTimeout(check, 200)
+        }
       }
+      check()
     }
 
     const existingScript = document.querySelector(`script[src="${scriptSrc}"]`)
@@ -49,10 +61,10 @@ export default function LocationSection({
       const script = document.createElement("script")
       script.charset = "UTF-8"
       script.src = scriptSrc
-      script.onload = initLander
+      script.onload = () => waitAndRender()
       document.body.appendChild(script)
     } else {
-      initLander()
+      waitAndRender()
     }
   }, [])
 
@@ -87,17 +99,18 @@ export default function LocationSection({
 
       {/* 지도 / 약도 콘텐츠 */}
       <div className="overflow-hidden rounded-b-[22px] border border-gray-200 bg-white">
-        {/* 지도: roughmap — 항상 DOM에 존재, 탭에 따라 표시/숨김 */}
-        <div className={activeTab === "지도" ? "block" : "hidden"}>
+        {/* 지도: roughmap — display:none 대신 height:0으로 숨겨 DOM 크기 유지 */}
+        <div style={activeTab === "지도" ? {} : { height: 0, overflow: "hidden" }}>
           <div
             id="daumRoughmapContainer1775655556422"
             className="root_daum_roughmap root_daum_roughmap_landing w-full"
+            style={{ minHeight: "360px" }}
           />
         </div>
         {/* 약도: 정적 이미지 */}
-        <div className={activeTab === "약도" ? "block" : "hidden"}>
+        {activeTab === "약도" && (
           <img src="/location-map.jpeg" alt="예식장 약도" className="w-full object-cover" />
-        </div>
+        )}
       </div>
 
       <div className="mt-8 text-center">
