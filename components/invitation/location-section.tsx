@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 
 const KAKAO_APP_KEY = "31fac3c9801dcec88238a79ed411f604"
-const VENUE_ADDRESS = "서울 강남구 언주로 711 건설회관"
+const VENUE_ADDRESS = "서울특별시 강남구 언주로 711 건설회관 2층"
 
 type Props = {
   venueName: string
@@ -128,7 +128,7 @@ export default function LocationSection({
           <div id="kakao-map-container" style={{ width: "100%", height: "360px" }} />
         </div>
         {activeTab === "약도" && (
-          <img src="/location-map.jpeg" alt="예식장 약도" className="w-full object-cover" />
+          <img src="/location-map.jpeg" alt="예식장 약도" className="w-full object-cover" style={{ height: "360px" }} />
         )}
       </div>
 
