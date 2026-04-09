@@ -62,7 +62,7 @@ export default function LocationSection({
             marker.setMap(map)
 
             const infowindow = new w.kakao.maps.InfoWindow({
-              content: `<div style="padding:5px 10px;font-size:12px;font-weight:bold;white-space:nowrap;">${venueName}</div>`,
+              content: `<div style="padding:5px 10px;font-size:12px;font-weight:bold;white-space:nowrap;color:#000;">${venueName}</div>`,
             })
             infowindow.open(map, marker)
           }
@@ -125,10 +125,10 @@ export default function LocationSection({
       <div className="overflow-hidden rounded-b-[22px] border border-gray-200 bg-white">
         {/* 카카오맵 JS API — height:0으로 숨겨 DOM 유지 */}
         <div style={activeTab === "지도" ? {} : { height: 0, overflow: "hidden" }}>
-          <div id="kakao-map-container" style={{ width: "100%", height: "360px" }} />
+          <div id="kakao-map-container" style={{ width: "100%", aspectRatio: "4/3" }} />
         </div>
         {activeTab === "약도" && (
-          <img src="/location-map.jpeg" alt="예식장 약도" className="w-full object-cover" style={{ height: "360px" }} />
+          <img src="/location-map.jpeg" alt="예식장 약도" className="w-full" />
         )}
       </div>
 
@@ -140,21 +140,21 @@ export default function LocationSection({
 
       <div className="mt-6 flex flex-wrap justify-center gap-2">
         <a href="https://tmap.life/30664446" target="_blank" rel="noreferrer"
-          className="rounded-lg px-4 py-2 text-sm font-medium text-white"
+          className="rounded-lg px-3 py-1.5 text-xs font-medium text-white"
           style={{ backgroundColor: "#FF4081" }}>
           티맵
         </a>
         <a href={mapLinks.kakao} target="_blank" rel="noreferrer"
-          className="rounded-lg px-4 py-2 text-sm font-medium text-black"
+          className="rounded-lg px-3 py-1.5 text-xs font-medium text-black"
           style={{ backgroundColor: "#FAE100" }}>
           카카오맵
         </a>
         <a href={mapLinks.naver} target="_blank" rel="noreferrer"
-          className="rounded-lg bg-green-500 px-4 py-2 text-sm font-medium text-white">
+          className="rounded-lg bg-green-500 px-3 py-1.5 text-xs font-medium text-white">
           네이버지도
         </a>
         <a href={mapLinks.google} target="_blank" rel="noreferrer"
-          className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white">
+          className="rounded-lg bg-blue-500 px-3 py-1.5 text-xs font-medium text-white">
           구글맵
         </a>
       </div>
