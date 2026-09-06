@@ -118,8 +118,6 @@ export default function InvitationPageClient() {
 
         <RevealSection>
           <CalendarSection
-            groomName={data.groomName}
-            brideName={data.brideName}
             weddingDate={data.weddingDate}
           />
         </RevealSection>

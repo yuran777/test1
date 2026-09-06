@@ -3,14 +3,12 @@
 import { useEffect, useMemo, useState } from "react"
 
 type Props = {
-  groomName: string
-  brideName: string
   weddingDate: string
 }
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"]
 
-export default function CalendarSection({ groomName, brideName, weddingDate }: Props) {
+export default function CalendarSection({ weddingDate }: Props) {
   const wedding = useMemo(() => new Date(weddingDate), [weddingDate])
 
   const year = wedding.getFullYear()
@@ -98,9 +96,7 @@ export default function CalendarSection({ groomName, brideName, weddingDate }: P
           <CountBox label="SEC" value={timeLeft.seconds} />
         </div>
         <p className="mt-12 text-[18px] font-medium text-gray-600">
-          {groomName}, {brideName}의 결혼식이{" "}
-          <span className="font-bold text-rose-500">{timeLeft.days}일</span>
-          {" "}남았습니다.
+          결혼을 축하해주셔서 감사합니다
         </p>
       </div>
     </section>
