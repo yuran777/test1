@@ -1,5 +1,4 @@
 "use client"
-import { Phone, Mail } from "lucide-react"
 
 type Props = {
   open: boolean
@@ -47,9 +46,9 @@ export default function ContactModal({ open, onClose }: Props) {
 
             <div className="mb-5 border-b border-white/40" />
 
-            <ContactItem label="신랑" name="박성우" phone="01022431839" />
-            <ContactItem label="신랑 아버지" name="박희진" phone="01085541839" />
-            <ContactItem label="신랑 어머니" name="김경희" phone="01090019839" />
+            <ContactItem label="신랑" name="박성우" />
+            <ContactItem label="신랑 아버지" name="박희진" />
+            <ContactItem label="신랑 어머니" name="김경희" />
           </section>
 
           {/* 신부측 */}
@@ -62,9 +61,9 @@ export default function ContactModal({ open, onClose }: Props) {
 
             <div className="mb-5 border-b border-white/40" />
 
-            <ContactItem label="신부" name="김유란" phone="01067556765" />
-            <ContactItem label="신부 아버지" name="김용호" phone="01087435765" />
-            <ContactItem label="신부 어머니" name="임동미" phone="01083066765" />
+            <ContactItem label="신부" name="김유란" />
+            <ContactItem label="신부 아버지" name="김용호" />
+            <ContactItem label="신부 어머니" name="임동미" />
           </section>
         </div>
       </div>
@@ -75,33 +74,14 @@ export default function ContactModal({ open, onClose }: Props) {
 function ContactItem({
   label,
   name,
-  phone,
 }: {
   label: string
   name: string
-  phone: string
 }) {
   return (
-    <div className="grid grid-cols-[110px_1fr_72px] items-center py-4 text-white">
+    <div className="grid grid-cols-[110px_1fr] items-center py-4 text-white">
       <p className="text-[15px] text-white/90">{label}</p>
-
       <p className="text-[15px] font-semibold">{name}</p>
-
-
-      <div className="flex items-center justify-end gap-4">
-        <a
-        href={`tel:${phone}`}
-        className="text-white"
-        >
-          <Phone size={20} strokeWidth={1.8} />
-          </a>
-          <a
-          href={`sms:${phone}`}
-          className="text-white"
-          >
-          <Mail size={20} strokeWidth={1.8} />
-          </a>
-        </div>
     </div>
   )
 }

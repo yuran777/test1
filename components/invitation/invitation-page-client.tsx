@@ -3,10 +3,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { invitationData } from "@/lib/data";
 import GalleryModal from "@/components/invitation/gallery-modal";
-import ContactModal from "@/components/invitation/contact-modal";
 import CalendarSection from "@/components/invitation/calendar-section";
 import LocationSection from "@/components/invitation/location-section";
-import AccountSection from "@/components/invitation/account-section";
 import RevealSection from "@/components/invitation/reveal-section";
 import ShareSection from "@/components/invitation/share-section";
 import GuestbookSection from "@/components/invitation/guestbook-section";
@@ -15,7 +13,6 @@ import MusicPlayer from "@/components/invitation/music-player";
 export default function InvitationPageClient() {
   const data = invitationData;
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-  const [contactOpen, setContactOpen] = useState(false);
   const [showAllGallery, setShowAllGallery] = useState(false);
   const [introStep, setIntroStep] = useState(0);
   const visibleGallery = showAllGallery ? data.gallery : data.gallery.slice(0, 15);
@@ -119,17 +116,6 @@ export default function InvitationPageClient() {
           </section>
         </RevealSection>
 
-        <RevealSection delay={200}>
-          <section className="py-10 text-center">
-            <button
-              onClick={() => setContactOpen(true)}
-              className="rounded-lg bg-gray-900 px-8 py-3 text-sm font-medium text-white transition-transform duration-200 hover:scale-[1.02]"
-            >
-              연락하기
-            </button>
-          </section>
-        </RevealSection>
-
         <RevealSection>
           <CalendarSection
             groomName={data.groomName}
@@ -146,10 +132,6 @@ export default function InvitationPageClient() {
             mapLinks={data.mapLinks}
             locationInfo={data.locationInfo}
           />
-        </RevealSection>
-
-        <RevealSection>
-          <AccountSection accounts={data.accounts} />
         </RevealSection>
 
         {/* 갤러리 */}
@@ -212,10 +194,6 @@ export default function InvitationPageClient() {
           images={data.gallery.map((item) => item.imageUrl)}
           selectedIndex={selectedImageIndex}
           onClose={() => setSelectedImageIndex(null)}
-        />
-        <ContactModal
-          open={contactOpen}
-          onClose={() => setContactOpen(false)}
         />
       </main>
     </>
